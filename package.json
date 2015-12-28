@@ -1,0 +1,45 @@
+{
+  "name": "showflake-hapi-openshift",
+  "version": "0.0.1",
+  "description": "OpenShift/local Hapi Server for Snowflake Application",
+  "keywords": [
+    "OpenShift",
+    "Node.js",
+    "snowflake",
+    "openshift",
+    "hapi"
+  ],
+  "author": {
+    "name": "barton hammond"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bartonhammond/snowflake-hapi-openshift"
+  },
+
+  "engines": {
+    "node": ">= 4.2.3",
+    "npm": ">= 2.14.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "debug": "node-debug  server.js"
+  },
+  "dependencies": {
+    "boom": "^3.1.1",
+    "good": "^6.4.0",
+    "good-console": "^5.2.0",
+    "hapi": "^11.1.3",
+    "hapi-auth-jwt": "^4.0.0",
+    "joi": "^7.1.0",
+    "jsonwebtoken": "^5.5.0",
+    "mongoose": "^4.3.4",
+    "nodemailer": "^1.11.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {},
+  "bundleDependencies": [],
+  "private": true,
+  "main": "server.js"
+}
