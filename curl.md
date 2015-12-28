@@ -14,7 +14,7 @@ curl -i https://mysnowflake-bartonhammond.rhcloud.com/env
 
 * create account
 ```
-curl --data "username=barton&password=password&email=foo@acclivyx.com" http://localhost:8080/account/register
+curl --data "username=barton&password=password&email=foo@gmail.com" http://localhost:8080/account/register
 or
  curl --data "username=barton&password=password&email=foo@gmail.com" https://mysnowflake-bartonhammond.rhcloud.com/account/register
 
