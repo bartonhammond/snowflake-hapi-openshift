@@ -17,7 +17,7 @@ Steps to get your custom Node.js version running on OpenShift
 
 * Create a nodejs application (you can name it anything via -a)
 
-   ``` rhc app create -a mysnowflake  -t nodejs-0.10 mongodb-2.4 rockmongo-1.1```
+  ```rhc app-create mysnowflake  nodejs-0.10 mongodb-2.4 rockmongo-1.1```
 
 * Add this repository
 ```
@@ -26,9 +26,14 @@ Steps to get your custom Node.js version running on OpenShift
     git pull -s recursive -X theirs upstream master
 ```
 
+* Copy config.sample.js to config.js and provide values
+
+```cp src/config.sample.js src/config.js```
+
 * Then push the repo to OpenShift
 ```
     git push
 ``
 That's it, you can now checkout your application at:[ http://mysnowflake-$yournamespace.rhcloud.com](http://mysnowflake-$yournamespace.rhcloud.com/)
 
+There are numerous ```curl``` command in ```curl.md```
