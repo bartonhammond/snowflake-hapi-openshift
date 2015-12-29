@@ -15,6 +15,13 @@ UserSchema.statics.findUserByIdAndUserName = function(id, username, callback) {
   }, callback);
 };
 
+UserSchema.statics.findUserByEmail = function(email, callback) {
+  this.findOne({
+    email: email
+  }, callback);
+};
+
+
 var user = Mongoose.model('User', UserSchema);
 
 module.exports = user;

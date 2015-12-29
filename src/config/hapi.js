@@ -1,7 +1,9 @@
-var Hapi = require('hapi');
-var JwtAuth = require('../auth/jwt-strategy');
-var Plugins = require('./plugins');
-var Routes = require('./routes');
+var Hapi = require('hapi'),
+    JwtAuth = require('../auth/jwt-strategy'),
+    Hoek = require('hoek'),
+    Plugins = require('./plugins'),
+    Routes = require('./routes'),
+    Views = require('./views');
 
 var internals = {};
 
@@ -14,15 +16,19 @@ internals.server.connection({
   address: process.env.OPENSHIFT_NODEJS_IP ||
     process.env.OPENSHIFT_INTERNAL_IP || '127.0.0.1'
 });
+
 // register plugins
-internals.server.register(Plugins.get(), function (err) {
-  if (err) {
-    console.error(err);
-  }
+internals.server.register(Plugins.get(), (err) => {
+  Hoek.assert(!err,err);
 });
+
+
 
 // configure jwt strategy
 JwtAuth.setStrategy(internals.server);
+
+//setup views for resetpassword
+Views.init(internals.server);
 
 // set routes
 Routes.init(internals.server);

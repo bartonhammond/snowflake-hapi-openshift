@@ -1,30 +1,55 @@
-var User = require('../database/models/User.js');
-var Jwt = require('jsonwebtoken');
-var Config = require('../config');
+var  Config = require('../config'),
+    internals = {},
+    Jwt = require('jsonwebtoken'),
+    redisClient = require('../database/redis'),
+    User = require('../database/models/User.js');
 
-var internals = {};
 
 internals.privateKey = Config.crypto.privateKey;
 
-// function to validate token
+/**
+ *  When a route is configured w/ 'auth', this validate function is
+ * invoked
+ * 
+ * If the token wasn't invalidated w/ logout, then validate
+* its for a user
+ */
 internals.validate = function (request, decodedToken, callback) {
+  
   var credentials = {};
   
-  User.findOne({ username: decodedToken.username, email: decodedToken.email }, function (err, user) {
+  var headers = request.headers.authorization.split(' ');
+  if (headers.length === 2) {
+    redisClient.get(headers[1], function (err, reply) {
+      if (err) {
+        console.log(err);
+        return callback(err, false, credentials);		        
+      }
+      
+      if (reply) {
+        return callback({message: 'invalid auth token'}, false, credentials);		        
+      }
 
-    if (err) {
-      return callback(err, false, credentials);		
-    } else {
-      credentials = user;
+      User.findOne({ username: decodedToken.username, email: decodedToken.email }, function (err, user) {
 
-      callback(err, true, credentials);
-    }
-  });
+        if (err) {
+          return callback(err, false, credentials);		
+        } else {
+          credentials = user;
+
+          return callback(err, true, credentials);
+        }
+      });
+    });
+  }
+
+  
+
 };
 
 // create token
 internals.createToken = function (obj) {
-  return Jwt.sign(obj, internals.privateKey);
+  return Jwt.sign(obj, internals.privateKey, {jwtid: 'jwtid'});
 };
 
 // set jwt auth strategy

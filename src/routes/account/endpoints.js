@@ -24,10 +24,33 @@ internals.endpoints = [
     handler: AccountHandlers.loginUser
   },
   {
+    method: 'POST',
+    path: '/account/logout',
+    handler: AccountHandlers.logoutUser,
+    config: {
+      auth: 'token'
+    }
+  },  
+  {
     method: 'GET',
     path: '/account/verifyEmail/{token}',
     handler: AccountHandlers.verifyEmail
-  }
+  },
+  {
+    method: 'POST',
+    path: '/account/resetPasswordRequest',
+    handler: AccountHandlers.resetPasswordRequest
+  },
+  {
+    method: 'GET',
+    path: '/account/resetPassword/{token}',
+    handler: AccountHandlers.displayResetPassword
+  },
+  {
+    method: 'POST',
+    path: '/account/resetPassword',
+    handler: AccountHandlers.resetPassword
+  },
 ];
 
 module.exports = internals;

@@ -12,14 +12,17 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-exports.sentMailVerificationLink = function(user,token) {
+function getUrl( ) {
   var url = '';
   if (process.env.OPENSHIFT_APP_DNS) {
     url = 'https://' + process.env.OPENSHIFT_APP_DNS;
   } else {
     url =   'http://127.0.0.1:8080';
   }
-
+  return url;
+}
+exports.sendMailVerificationLink = function(user,token) {
+  var url = getUrl();
   var from = Config.email.accountName;
   var mailbody = "<p>Thanks for Registering on"
         + " "
@@ -33,10 +36,22 @@ exports.sentMailVerificationLink = function(user,token) {
   mail(from, user.email , "Account Verification", mailbody);
 };
 
-exports.sentMailForgotPassword = function(user) {
-  var from = Config.email.accountName+" Team<" + Config.email.username + ">";
-  var mailbody = "<p>Your "+Config.email.accountName+"  Account Credential</p><p>username : "+user.userName+" , password : "+decrypt(user.password)+"</p>";
-  mail(from, user.email , "Account password", mailbody);
+exports.sendMailResetPassword = function(user, token) {
+
+  var url = getUrl();
+  var from = Config.email.accountName;
+  var mailbody = "<p>A reset password action has been requested from"
+        + " "
+        + Config.email.accountName
+        +" </p><p>Please click on the "
+        + " reset password link below.<br/>"
+        + " The link is only available for 15 minutes.<br/>"
+        + "<a href='"
+        + url
+        + "/account/resetPassword/"
+        +token
+        + "'>Reset Password Link</a></p>";
+  mail(from, user.email , "Reset Password", mailbody);
 };
 
 function mail(from, email, subject, mailbody){

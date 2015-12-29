@@ -6,6 +6,8 @@ var Boom = require('boom'),
     JasonWebToken = require('jsonwebtoken'),    
     JwtAuth = require('../../auth/jwt-strategy'),
     Mailer = require('../../lib/Mailer'),
+    Moment = require('moment'),
+    redisClient = require('../../database/redis'),
     User = require('../../database/models/User');
 
 var internals = {};
@@ -29,9 +31,9 @@ internals.registerUser = function (req, reply) {
         id: user._id
       };
       
-      Mailer.sentMailVerificationLink(user,
+      Mailer.sendMailVerificationLink(user,
                                       JasonWebToken.sign(tokenData,
-                                      Config.crypto.privateKey));
+                                                         Config.crypto.privateKey));
       
       reply({
 	statusCode: 201,
@@ -60,11 +62,24 @@ internals.loginUser = function (req, reply) {
   });
 };
 
+/**
+ *
+ * Create a token blacklist with Redis
+ * see: https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-keys/
+ *
+ */
+internals.logoutUser = function(req, reply) {
+  console.log('logoutUser.req.head.auth', req.headers.authorization);
+  var headers = req.headers.authorization.split(' ');
+  redisClient.set(headers[1], new Date());
+  reply({success: true, message: 'Logged out'});
+};
+
 internals.verifyEmail = function (req, reply) {
   console.log('verifyEmail: ' + req.params.token);
   JasonWebToken.verify(req.params.token, Config.crypto.privateKey, function(err, decoded) {
     console.log('verifyEmail.err',err);
-  console.log('verifyEmail.decoded',decoded);
+    console.log('verifyEmail.decoded',decoded);
     if(decoded === undefined) {
       return reply(Boom.forbidden("invalid verification link"));
     }
@@ -96,6 +111,77 @@ internals.verifyEmail = function (req, reply) {
       });
     })
     
+  });
+};
+
+internals.resetPasswordRequest = function (req, reply) {
+  console.log('resetPasswordRequest.email: ' + req.payload.email);
+  User.findUserByEmail(req.payload.email, function(err, user) {
+    if (err) {
+      console.log('resetPasswordRequest.err: ' + err);
+    }
+    //Provide no indication if user exists
+    if (user) {
+      var tokenData = {
+        username: user.username,
+        id: user._id
+      };
+      
+      Mailer.sendMailResetPassword(user,
+                                   JasonWebToken.sign(tokenData,
+                                                      Config.crypto.privateKey));
+      
+      reply({
+	statusCode: 201,
+	message: "email delivered."
+      });
+    }
+  });
+};
+
+
+/**
+ * Display the resetPassword form
+ */
+internals.displayResetPassword = function (req, reply) {
+  reply.view('resetpassword', {token: req.params.token});
+};
+
+/**
+ * Update password of user
+ */
+internals.resetPassword = function (req, reply) {
+  
+  JasonWebToken.verify(req.payload.token, Config.crypto.privateKey, function(err, decoded) {
+    
+    if(decoded === undefined) {
+      return reply(Boom.forbidden("invalid resetPassword link"));
+    }
+    
+    //Must fit w/in time allocated
+    var diff = Moment().diff(Moment(decoded.iat * 1000));
+    if (diff > CONFIG.crypto.tokenExpires) {
+      return reply(Boom.unauthorized('reset password allowed time has past'));
+    }
+
+    User.findUserByIdAndUserName(decoded.id, decoded.username, function(err, user){
+      if (err) {
+        return reply(Boom.badImplementation(err));
+      }
+      if (user === null) {
+        return reply(Boom.forbidden("invalid resetPassword link"));
+      }
+      
+      user.password = Crypto.encrypt(req.payload.password);
+      user.save(function(err){
+        if (err) {
+          return reply(Boom.badImplementation(err));
+        }
+        
+        return reply("account password updated");
+
+      });
+    })
   });
 
 };
