@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>hapi.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../doc-style.css" />
+  <script src="../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../", thisFile = "Users/barton/projects/MFV/snowflake-hapi-openshift//config/hapi.js", defaultSidebar = true;
+  </script>
+  <script src="../doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+          <h1>hapi.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">Hapi</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;hapi&#39;</span><span class="p">),</span>
+    <span class="nx">JwtAuth</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../auth/jwt-strategy&#39;</span><span class="p">),</span>
+    <span class="nx">Hoek</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;hoek&#39;</span><span class="p">),</span>
+    <span class="nx">Plugins</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./plugins&#39;</span><span class="p">),</span>
+    <span class="nx">Routes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./routes&#39;</span><span class="p">),</span>
+    <span class="nx">Views</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./views&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="nx">internals</span><span class="p">.</span><span class="nx">server</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Hapi</span><span class="p">.</span><span class="nx">Server</span><span class="p">();</span>
+
+<span class="nx">internals</span><span class="p">.</span><span class="nx">server</span><span class="p">.</span><span class="nx">connection</span><span class="p">({</span>
+  <span class="nx">port</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">OPENSHIFT_NODEJS_PORT</span>   <span class="o">||</span>
+    <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">OPENSHIFT_INTERNAL_PORT</span> <span class="o">||</span> <span class="mi">8080</span><span class="p">,</span>
+  
+  <span class="nx">address</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">OPENSHIFT_NODEJS_IP</span> <span class="o">||</span>
+    <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">OPENSHIFT_INTERNAL_IP</span> <span class="o">||</span> <span class="s1">&#39;127.0.0.1&#39;</span>
+<span class="p">});</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
+</div>
+<p>register plugins</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">internals</span><span class="p">.</span><span class="nx">server</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="nx">Plugins</span><span class="p">.</span><span class="nx">get</span><span class="p">(),</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">Hoek</span><span class="p">.</span><span class="nx">assert</span><span class="p">(</span><span class="o">!</span><span class="nx">err</span><span class="p">,</span><span class="nx">err</span><span class="p">);</span>
+<span class="p">});</span>
+
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>configure jwt strategy</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">JwtAuth</span><span class="p">.</span><span class="nx">setStrategy</span><span class="p">(</span><span class="nx">internals</span><span class="p">.</span><span class="nx">server</span><span class="p">);</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>setup views for resetpassword</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">Views</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">internals</span><span class="p">.</span><span class="nx">server</span><span class="p">);</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<p>set routes</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">Routes</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">internals</span><span class="p">.</span><span class="nx">server</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">internals</span><span class="p">.</span><span class="nx">server</span><span class="p">;</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>

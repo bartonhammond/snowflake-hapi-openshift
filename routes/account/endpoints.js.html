@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>endpoints.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../../doc-style.css" />
+  <script src="../../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../../", thisFile = "Users/barton/projects/MFV/snowflake-hapi-openshift//routes/account/endpoints.js", defaultSidebar = true;
+  </script>
+  <script src="../../doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+          <h1>endpoints.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">Joi</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;joi&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">AccountHandlers</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./handlers&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="nx">internals</span><span class="p">.</span><span class="nx">endpoints</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/account/register&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">AccountHandlers</span><span class="p">.</span><span class="nx">registerUser</span><span class="p">,</span>
+    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">validate</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">username</span><span class="o">:</span> <span class="nx">Joi</span><span class="p">.</span><span class="nx">string</span><span class="p">().</span><span class="nx">alphanum</span><span class="p">().</span><span class="nx">min</span><span class="p">(</span><span class="mi">6</span><span class="p">).</span><span class="nx">max</span><span class="p">(</span><span class="mi">12</span><span class="p">).</span><span class="nx">required</span><span class="p">(),</span>
+    <span class="nx">password</span><span class="o">:</span> <span class="nx">Joi</span><span class="p">.</span><span class="nx">string</span><span class="p">().</span><span class="nx">regex</span><span class="p">(</span><span class="sr">/[a-zA-Z0-9]{3,30}/</span><span class="p">).</span><span class="nx">required</span><span class="p">(),</span>
+    <span class="nx">email</span><span class="o">:</span> <span class="nx">Joi</span><span class="p">.</span><span class="nx">string</span><span class="p">().</span><span class="nx">email</span><span class="p">().</span><span class="nx">required</span><span class="p">()</span>
+  <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/account/login&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">AccountHandlers</span><span class="p">.</span><span class="nx">loginUser</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/account/logout&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">AccountHandlers</span><span class="p">.</span><span class="nx">logoutUser</span><span class="p">,</span>
+    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">auth</span><span class="o">:</span> <span class="s1">&#39;token&#39;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>  
+  <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/account/verifyEmail/{token}&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">AccountHandlers</span><span class="p">.</span><span class="nx">verifyEmail</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/account/resetPasswordRequest&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">AccountHandlers</span><span class="p">.</span><span class="nx">resetPasswordRequest</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/account/resetPassword/{token}&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">AccountHandlers</span><span class="p">.</span><span class="nx">displayResetPassword</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/account/resetPassword&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">AccountHandlers</span><span class="p">.</span><span class="nx">resetPassword</span>
+  <span class="p">},</span>
+<span class="p">];</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">internals</span><span class="p">;</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>
