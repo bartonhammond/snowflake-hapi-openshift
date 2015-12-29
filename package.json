@@ -23,7 +23,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "debug": "node-debug  server.js"
+    "debug": "node-debug  server.js",
+    "docs": "./node_modules/docker/docker -w -I -x node_modules -s yes -o ../snowflake-hapi-openshift-pages "
   },
   "dependencies": {
     "boom": "^3.1.1",
@@ -44,7 +45,9 @@
     "underscore": "^1.8.3",
     "vision": "^4.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "docker": "git+https://git@github.com/bartonhammond/docker.git"    
+  },
   "bundleDependencies": [],
   "private": true,
   "main": "server.js"
