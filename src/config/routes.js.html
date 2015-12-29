@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>routes.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../../doc-style.css" />
+  <script src="../../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../../", thisFile = "src/config/routes.js", defaultSidebar = true;
+  </script>
+  <script src="../../doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+          <h1>routes.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">AccountRoutes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../routes/account/endpoints&#39;</span><span class="p">),</span>
+    <span class="nx">GeneralRoutes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../routes/general/endpoints&#39;</span><span class="p">),</span>
+    <span class="nx">RestrictedRoutes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../routes/restricted/endpoints&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="nx">internals</span><span class="p">.</span><span class="nx">routes</span> <span class="o">=</span> <span class="p">[].</span><span class="nx">concat</span><span class="p">(</span><span class="nx">AccountRoutes</span><span class="p">.</span><span class="nx">endpoints</span><span class="p">,</span>
+                             <span class="nx">GeneralRoutes</span><span class="p">.</span><span class="nx">endpoints</span><span class="p">,</span>
+                             <span class="nx">RestrictedRoutes</span><span class="p">.</span><span class="nx">endpoints</span><span class="p">);</span>
+
+<span class="nx">internals</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">server</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="nx">server</span><span class="p">.</span><span class="nx">route</span><span class="p">(</span><span class="nx">internals</span><span class="p">.</span><span class="nx">routes</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">internals</span><span class="p">;</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>

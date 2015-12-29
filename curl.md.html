@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>curl.md</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = "", thisFile = "curl.md", defaultSidebar = true;
+  </script>
+  <script src="doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="docs markdown">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+<ul>
+<li>status</li>
+</ul>
+
+<div class='highlight'><pre><code language=''>curl -i http://localhost:8080/status
+or
+curl -i https://mysnowflake-bartonhammond.rhcloud.com/status
+</code></pre></div>
+
+<ul>
+<li>env</li>
+</ul>
+
+<div class='highlight'><pre><code language=''>curl -i http://localhost:8080/env
+or
+curl -i https://mysnowflake-bartonhammond.rhcloud.com/env
+</code></pre></div>
+
+<ul>
+<li>create account</li>
+</ul>
+
+<pre><code language=''>curl --data "username=barton&amp;password=password&amp;<a href='mailto:email=foo@gmail.com'>email=foo@gmail.com</a>" http://localhost:8080/account/register
+or
+ curl --data "username=barton&amp;password=password&amp;<a href='mailto:email=foo@gmail.com'>email=foo@gmail.com</a>" https://mysnowflake-bartonhammond.rhcloud.com/account/register
+</code></pre>
+
+<ul>
+<li>login</li>
+</ul>
+
+<div class='highlight'><pre><code language=''>curl --data "username=barton&amp;password=password" http://localhost:3000/account/login
+or
+curl --data "username=barton&amp;password=password" https://mysnowflake-bartonhammond.rhcloud.com/account/login
+</code></pre></div>
+
+<ul>
+<li>restricted</li>
+</ul>
+
+<div class='highlight'><pre><code language=''>curl -v -H "Authorization: Bearer
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImJhcnRvbiIsImVtYWlsIjoiYmFydG9uQGFjY2xpdnl4LmNvbSIsImlhdCI6MTQ1MTMyNjMyMn0.TXIKx4fnItkhAtEYd5NQhSRr3jQcykOFniJ1QnNO30Q"
+http://localhost:3000/restricted
+or
+
+curl -v -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImJhcnRvbiIsImVtYWlsIjoiYmFydG9uQGFjY2xpdnl4LmNvbSIsImlhdCI6MTQ1MTM0NTQ5MH0.8EVW5EkIKcT3-P7ZZFadC3KEZcA4oypLyt5WGT-BnUo" https://mysnowflake-bartonhammond.rhcloud.com/restricted
+</code></pre></div></div>
+  </div>
+</body>
+</html>

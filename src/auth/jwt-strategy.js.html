@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>jwt-strategy.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../../doc-style.css" />
+  <script src="../../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../../", thisFile = "src/auth/jwt-strategy.js", defaultSidebar = true;
+  </script>
+  <script src="../../doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+          <h1>jwt-strategy.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span>  <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../config&#39;</span><span class="p">),</span>
+    <span class="nx">internals</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="nx">Jwt</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jsonwebtoken&#39;</span><span class="p">),</span>
+    <span class="nx">redisClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../database/redis&#39;</span><span class="p">),</span>
+    <span class="nx">User</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../database/models/User.js&#39;</span><span class="p">);</span>
+
+
+<span class="nx">internals</span><span class="p">.</span><span class="nx">privateKey</span> <span class="o">=</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">;</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>When a route is configured w/ 'auth', this validate function is
+invoked</p>
+  </div>
+  <div class="body"><p>If the token wasn't invalidated w/ logout, then validate
+its for a user</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">internals</span><span class="p">.</span><span class="nx">validate</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">decodedToken</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+  
+  <span class="kd">var</span> <span class="nx">credentials</span> <span class="o">=</span> <span class="p">{};</span>
+  
+  <span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">authorization</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">headers</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">redisClient</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">headers</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">);</span>           
+      <span class="p">}</span>
+      
+      <span class="k">if</span> <span class="p">(</span><span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">callback</span><span class="p">({</span><span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;invalid auth token&#39;</span><span class="p">},</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">);</span>           
+      <span class="p">}</span>
+
+      <span class="nx">User</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="nx">decodedToken</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="nx">decodedToken</span><span class="p">.</span><span class="nx">email</span> <span class="p">},</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">);</span>   
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="nx">credentials</span> <span class="o">=</span> <span class="nx">user</span><span class="p">;</span>
+
+          <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">});</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  
+
+<span class="p">};</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>create token</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">internals</span><span class="p">.</span><span class="nx">createToken</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">Jwt</span><span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">internals</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">,</span> <span class="p">{</span><span class="nx">jwtid</span><span class="o">:</span> <span class="s1">&#39;jwtid&#39;</span><span class="p">});</span>
+<span class="p">};</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>set jwt auth strategy</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">internals</span><span class="p">.</span><span class="nx">setJwtStrategy</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">server</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">server</span><span class="p">.</span><span class="nx">auth</span><span class="p">.</span><span class="nx">strategy</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="s1">&#39;jwt&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">key</span><span class="o">:</span> <span class="nx">internals</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">,</span>
+    <span class="nx">validateFunc</span><span class="o">:</span> <span class="nx">internals</span><span class="p">.</span><span class="nx">validate</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">setStrategy</span><span class="o">:</span> <span class="nx">internals</span><span class="p">.</span><span class="nx">setJwtStrategy</span><span class="p">,</span>
+  <span class="nx">createToken</span><span class="o">:</span> <span class="nx">internals</span><span class="p">.</span><span class="nx">createToken</span>
+<span class="p">};</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>

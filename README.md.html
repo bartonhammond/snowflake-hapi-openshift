@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>README.md</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = "", thisFile = "README.md", defaultSidebar = true;
+  </script>
+  <script src="doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h1">
+        <a href="#hapi%20server%20running%20local%20or%20on%20openshift%20in%20support%20of%20snowflake">Hapi Server running local or on OpenShift in support of Snowflake</a>
+      </div>
+      <div class="heading h2">
+        <a href="#locally">Locally</a>
+      </div>
+      <div class="heading h2">
+        <a href="#steps%20to%20get%20your%20custom%20node.js%20version%20running%20on%20openshift">Steps to get your custom Node.js version running on OpenShift</a>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="docs markdown">
+<div class="pilwrap" id="hapi%20server%20running%20local%20or%20on%20openshift%20in%20support%20of%20snowflake">
+  <h1>
+    <a href="#hapi%20server%20running%20local%20or%20on%20openshift%20in%20support%20of%20snowflake" name="hapi%20server%20running%20local%20or%20on%20openshift%20in%20support%20of%20snowflake" class="pilcrow">&#182;</a>
+    Hapi Server running local or on OpenShift in support of Snowflake
+  </h1>
+</div>
+
+
+<p>This is a sample Hapi Server that supports basic User Authentication
+locally on running on OpenShift.</p>
+
+
+<div class="pilwrap" id="locally">
+  <h2>
+    <a href="#locally" name="locally" class="pilcrow">&#182;</a>
+    Locally
+  </h2>
+</div>
+
+
+<p>Install Mongo db and Redis and start them
+I used Redis 2.18.24, downloaded the zip
+<a href="http://download.redis.io/releases/redis-2.8.24.tar.gz">http://download.redis.io/releases/redis-2.8.24.tar.gz</a>
+and <code>make</code></p>
+
+
+<div class="pilwrap" id="steps%20to%20get%20your%20custom%20node.js%20version%20running%20on%20openshift">
+  <h2>
+    <a href="#steps%20to%20get%20your%20custom%20node.js%20version%20running%20on%20openshift" name="steps%20to%20get%20your%20custom%20node.js%20version%20running%20on%20openshift" class="pilcrow">&#182;</a>
+    Steps to get your custom Node.js version running on OpenShift
+  </h2>
+</div>
+
+
+<ul>
+<li><p>Create an account at <a href='http://openshift.redhat.com/'>http://openshift.redhat.com/</a></p></li>
+<li><p>Install the command line tool <code>rhc</code></p></li>
+<li><p>Create a namespace, if you haven't already do so</p>
+
+<p><code>rhc domain create &lt;yournamespace&gt;</code></p></li>
+<li><p>Create a nodejs application - this nodejs, mongodb, rockmongo and
+redis (2.8.13)</p></li>
+</ul>
+
+<div class='highlight'><pre><code language=''>rhc app-create mysnowflake  nodejs-0.10 mongodb-2.4 rockmongo-1.1 \
+http://cartreflect-claytondev.rhcloud.com/reflect?github=transformatordesign/openshift-redis-cart
+
+  
+</code></pre></div>
+
+<ul>
+<li>Add this repository</li>
+</ul>
+
+<div class='highlight'><pre><code language=''>    cd mysnowflake
+    git remote add upstream -m master git://github.com/bartonhammond/snowflake-hapi-openshift.git
+    git pull -s recursive -X theirs upstream master
+</code></pre></div>
+
+<ul>
+<li>Copy config.sample.js to config.js and provide values</li>
+</ul>
+
+<p><code>cp src/config.sample.js src/config.js</code></p>
+
+<ul>
+<li>Then push the repo to OpenShift
+<code>`
+git push
+</code>
+That's it, you can now checkout your application at:<a href="http://mysnowflake-$yournamespace.rhcloud.com/"> http://mysnowflake-$yournamespace.rhcloud.com</a></li>
+</ul>
+
+<p>There are numerous <code>curl</code> command in <code>curl.md</code></p>
+
+<ul>
+<li><p>If you want to have this project also in your GitHub account follow
+these steps</p>
+
+<ul><li><a href='https://forums.openshift.com/how-to-keep-a-github-repository-and-an-openshift-repository-in-sync'>https://forums.openshift.com/how-to-keep-a-github-repository-and-an-openshift-repository-in-sync</a></li></ul></li>
+</ul></div>
+  </div>
+</body>
+</html>
