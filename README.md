@@ -7,17 +7,18 @@ Snowflake ![snowflake](https://cloud.githubusercontent.com/assets/1282364/115993
 ![andriod](https://img.shields.io/badge/Android--blue.svg) [![Build Status](https://www.bitrise.io/app/2208a743f1e2bc77.svg?token=CDkkOzD9axAqgpIBqOibqA)](https://www.bitrise.io/app/2208a743f1e2bc77)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/bartonhammond/snowflake/blob/master/LICENSE)
 
+# Content
 
 [Source documentation](http://bartonhammond.github.io/snowflake-hapi-openshift/server.js.html)
 
 ## Directions on usage
 
-Hapi Server running local or on OpenShift in support of Snowflake
+### Hapi Server running local or on OpenShift in support of Snowflake
 ====================================================================
 This is a sample Hapi Server that supports basic User Authentication
 locally on running on OpenShift.
 
-Locally
+#### Locally
 ----------------------------------------------------------
 Install Mongo db and Redis and start them
 I used Redis 2.18.24, downloaded the zip
@@ -25,7 +26,7 @@ I used Redis 2.18.24, downloaded the zip
 and ```make```
 
 
-Steps to get your custom Node.js version running on OpenShift
+### Steps to get your custom Node.js version running on OpenShift
 ----------------------------------------------------------
 
 * Create an account at http://openshift.redhat.com/
