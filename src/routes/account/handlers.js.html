@@ -85,16 +85,114 @@
   <div class="body">
   </div>
 </div>
+
+<p>Boom is an abstraction over http error codes</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">var</span> <span class="nx">Boom</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;boom&#39;</span><span class="p">),</span>
-    <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../config&#39;</span><span class="p">),</span>    
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>our configuration</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../config&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>our encrpyt and decrypt</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">Crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../lib/Crypto&#39;</span><span class="p">),</span>
-    <span class="nx">JasonWebToken</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jsonwebtoken&#39;</span><span class="p">),</span>    
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<p>support for token signing and verification</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">JasonWebToken</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jsonwebtoken&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+</div>
+<p>the Hapi strategy for jwt</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">JwtAuth</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../auth/jwt-strategy&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+</div>
+<p>how we email </p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">Mailer</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../lib/Mailer&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
+</div>
+<p>time/date functions</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">Moment</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;moment&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
+</div>
+<p>the client for redis</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">redisClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../database/redis&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
+</div>
+<p>our user in mongodb</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">User</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../database/models/User&#39;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span>
@@ -131,7 +229,7 @@
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
 </div>
 <p>save the user w/ the encrypted password</p>
         </td>
@@ -154,7 +252,7 @@
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
 </div>
 <p>send an email verification with a JWT token</p>
         </td>
@@ -169,7 +267,7 @@
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
 </div>
 <p>Let the user know they are registered</p>
         </td>
@@ -283,7 +381,7 @@ from the token.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
+  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
 </div>
 <p>oops, something wrong</p>
         </td>
@@ -299,7 +397,7 @@ from the token.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
+  <a class="pilcrow" href="#section-19" id="section-19">&#182;</a>
 </div>
 <p>No user found for this link</p>
         </td>
@@ -315,7 +413,7 @@ from the token.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
+  <a class="pilcrow" href="#section-20" id="section-20">&#182;</a>
 </div>
 <p>not sure if this is really an error...</p>
         </td>
@@ -331,7 +429,7 @@ from the token.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+  <a class="pilcrow" href="#section-21" id="section-21">&#182;</a>
 </div>
 <p>Everything is fine, update the users flag for emailVerified</p>
         </td>
@@ -382,7 +480,7 @@ from the token.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
+  <a class="pilcrow" href="#section-23" id="section-23">&#182;</a>
 </div>
 <p>Provide no indication if user exists</p>
         </td>
@@ -479,7 +577,7 @@ from the token.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
+  <a class="pilcrow" href="#section-26" id="section-26">&#182;</a>
 </div>
 <p>Must fit w/in time allocated</p>
         </td>
