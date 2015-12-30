@@ -15,13 +15,27 @@ This server runs locally and on OpenShift.  It uses Hapi, MongoDb, Redis, and Ja
 
 ## Directions on usage
 
-### Locally
+### Locally (one time only setup)
 ----------------------------------------------------------
-Install Mongo db and Redis and start them
-I used Redis 2.18.24, downloaded the zip
-[http://download.redis.io/releases/redis-2.8.24.tar.gz](http://download.redis.io/releases/redis-2.8.24.tar.gz)
-and ```make```
+* Install Mongo db [https://www.mongodb.org/downloads#production](https://www.mongodb.org/downloads#production)
 
+* Install Redis
+
+  * I used Redis 2.18.24,
+  * down load and unzip [http://download.redis.io/releases/redis-2.8.24.tar.gz](http://download.redis.io/releases/redis-2.8.24.tar.gz)
+
+```
+cd redis-2.8.24
+make
+cd src/
+./redis-server 
+```
+
+  * Then in different terminal,
+
+```
+npm start
+```
 
 ### OpenShift
 ----------------------------------------------------------
@@ -32,7 +46,9 @@ and ```make```
 
 * Create a namespace, if you haven't already do so
 
-  ```  rhc domain create <yournamespace>```
+```
+rhc domain create <yournamespace>
+```
 
 * Create a nodejs application - this nodejs, mongodb, rockmongo and
   redis (2.8.13)
@@ -40,19 +56,20 @@ and ```make```
 ```
 rhc app-create mysnowflake  nodejs-0.10 mongodb-2.4 rockmongo-1.1 \
 http://cartreflect-claytondev.rhcloud.com/reflect?github=transformatordesign/openshift-redis-cart
-  
-  ```
+```
 
 * Add this repository
 ```
-    cd mysnowflake
-    git remote add upstream -m master git://github.com/bartonhammond/snowflake-hapi-openshift.git
-    git pull -s recursive -X theirs upstream master
+cd mysnowflake
+git remote add upstream -m master git://github.com/bartonhammond/snowflake-hapi-openshift.git
+git pull -s recursive -X theirs upstream master
 ```
 
 * Copy config.sample.js to config.js and provide values
 
-```cp src/config.sample.js src/config.js```
+```
+cp src/config.sample.js src/config.js
+```
 
 * Then push the repo to OpenShift
 
