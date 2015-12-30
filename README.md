@@ -50,12 +50,13 @@ npm start
 rhc domain create <yournamespace>
 ```
 
-* Create a nodejs application - this nodejs, mongodb, rockmongo and
-  redis (2.8.13)
+* Create a nodejs application - this nodejs, mongodb, rockmongo and redis
+
+  * notice the ```-s``` at the end - that enables Scaling to Web Traffic!
 
 ```
 rhc app-create mysnowflake  nodejs-0.10 mongodb-2.4 rockmongo-1.1 \
-http://cartreflect-claytondev.rhcloud.com/reflect?github=transformatordesign/openshift-redis-cart
+http://cartreflect-claytondev.rhcloud.com/reflect?github=transformatordesign/openshift-redis-cart -s
 ```
 
 * Add this repository
