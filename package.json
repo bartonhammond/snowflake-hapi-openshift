@@ -46,7 +46,7 @@
     "vision": "^4.0.1"
   },
   "devDependencies": {
-    "docker": "git+https://git@github.com/bartonhammond/docker.git"    
+    "docker": "^0.2.14"
   },
   "bundleDependencies": [],
   "private": true,
