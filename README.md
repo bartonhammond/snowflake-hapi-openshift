@@ -13,12 +13,7 @@ Snowflake ![snowflake](https://cloud.githubusercontent.com/assets/1282364/115993
 
 ## Directions on usage
 
-### Hapi Server running local or on OpenShift in support of Snowflake
-====================================================================
-This is a sample Hapi Server that supports basic User Authentication
-locally on running on OpenShift.
-
-#### Locally
+### Locally
 ----------------------------------------------------------
 Install Mongo db and Redis and start them
 I used Redis 2.18.24, downloaded the zip
