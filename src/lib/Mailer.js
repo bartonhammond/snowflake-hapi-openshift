@@ -1,9 +1,22 @@
+/**
+ * # Mailer.js
+ *
+ * Create email and send content
+ * 
+ *
+ */
 'use strict';
-
+/**
+ * ## Imports
+ *
+ */
 var nodemailer = require("nodemailer"),
     Config = require('../config');
 
-
+/**
+ * ## transporter
+ * configure the email provider
+ */
 var transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
@@ -11,7 +24,11 @@ var transporter = nodemailer.createTransport({
     pass: Config.email.password
   }
 });
-
+/**
+ * ## getUrl 
+ * Local or OpenShift
+ *
+ */
 function getUrl( ) {
   var url = '';
   if (process.env.OPENSHIFT_APP_DNS) {
@@ -21,13 +38,19 @@ function getUrl( ) {
   }
   return url;
 }
+/**
+ * ## sendMailVerificationLink
+ *
+ * send email for verification of the account's email address
+ *
+ */
 exports.sendMailVerificationLink = function(user,token) {
   var url = getUrl();
   var from = Config.email.accountName;
   var mailbody = "<p>Thanks for Registering on"
         + " "
         + Config.email.accountName
-        +" </p><p>Please verify your email by clicking on the"
+    +" </p><p>Please verify your email by clicking on the"
         + " verification link below.<br/><a href='"
         + url
         + "/account/verifyEmail/"
@@ -35,7 +58,12 @@ exports.sendMailVerificationLink = function(user,token) {
         + "'>Verification Link</a></p>";
   mail(from, user.email , "Account Verification", mailbody);
 };
-
+/**
+ * ## sendMailResetPassword
+ *
+ * Set email to user so they can reset their password
+ *
+ */
 exports.sendMailResetPassword = function(user, token) {
 
   var url = getUrl();
@@ -43,7 +71,7 @@ exports.sendMailResetPassword = function(user, token) {
   var mailbody = "<p>A reset password action has been requested from"
         + " "
         + Config.email.accountName
-        +" </p><p>Please click on the "
+    +" </p><p>Please click on the "
         + " reset password link below.<br/>"
         + " The link is only available for 15 minutes.<br/>"
         + "<a href='"
@@ -53,7 +81,11 @@ exports.sendMailResetPassword = function(user, token) {
         + "'>Reset Password Link</a></p>";
   mail(from, user.email , "Reset Password", mailbody);
 };
-
+/**
+ * ## mail
+ *
+ * The main function, sends the email 
+ */
 function mail(from, email, subject, mailbody){
   var mailOptions = {
     from: from, // sender address

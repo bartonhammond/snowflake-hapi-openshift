@@ -1,8 +1,20 @@
-
+/**
+* # resetPassword.js
+* 
+* This is a client side implementation that supports the reset
+ * password user case.  When the user presses the "reset" button a
+ * AJAX call is sent to the server.
+ *
+*/
 
 var internals = {};
 
-
+/**
+* ## executeAjax
+*
+* Post the data to the url
+* 
+*/
 internals.executeAJAX = function (url, data, callback) {
 
   internals.clearErrors();
@@ -33,7 +45,12 @@ internals.executeAJAX = function (url, data, callback) {
   return true;
 };
 
-
+/**
+* ## errorMessage
+*
+* display any error message
+* 
+*/
 internals.errorMessage = function (message) {
 
   //  handle error message
@@ -53,7 +70,12 @@ internals.errorMessage = function (message) {
 
   return false;
 };
-
+/**
+* ## clearErrors
+*
+* Remove any errors
+* 
+*/
 internals.clearErrors = function () {
 
   var errorMessages = document.getElementsByTagName('p');
@@ -64,7 +86,12 @@ internals.clearErrors = function () {
     errorMessages[0].parentNode.removeChild(errorMessages[0]);
   }
 };
-
+/**
+* ## successMessage
+*
+* Display the success message from the server
+* 
+*/
 internals.successMessage = function (request) {
 
 
@@ -80,18 +107,18 @@ internals.successMessage = function (request) {
   return;
 };
 
-
+/**
+* ## onreadystatechange
+*
+* List for click event on button, send data to server to reset password
+* 
+*/
 document.onreadystatechange = function () {
-
 
   if (document.readyState === 'complete') {
 
-
     // Add click event handler
-
     document.getElementById('btnReset').addEventListener('click', function (event) {
-
-
       event.preventDefault();
 
       // Get submitted form data
@@ -109,14 +136,12 @@ document.onreadystatechange = function () {
         } else if (request.status !== 0) {
 
           // Boom error message received from server.
-
           var responseJson = JSON.parse(request.response);
           internals.errorMessage(responseJson.message);
 
         } else {
 
           // Oh no! request aborted
-
           if (request.timedOut === true) {
             internals.errorMessage('Your request timed out.  Most likely you have a slow internet connection.');
           } else {

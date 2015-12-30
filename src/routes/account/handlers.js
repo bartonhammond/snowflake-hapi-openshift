@@ -1,25 +1,48 @@
+/**
+ * # account/handlers.js
+ *
+ * This handles all the account actions
+ *
+ *
+ */
 'use strict';
-
+/**
+ * ## Imports
+ *
+ */
+//Boom is an abstraction over http error codes
 var Boom = require('boom'),
-    Config = require('../../config'),    
+    // our configuration
+    Config = require('../../config'),
+    // our encrpyt and decrypt
     Crypto = require('../../lib/Crypto'),
-    JasonWebToken = require('jsonwebtoken'),    
+    // support for token signing and verification
+    JasonWebToken = require('jsonwebtoken'),
+    // the Hapi strategy for jwt
     JwtAuth = require('../../auth/jwt-strategy'),
+    // how we email 
     Mailer = require('../../lib/Mailer'),
+    // time/date functions
     Moment = require('moment'),
+    // the client for redis
     redisClient = require('../../database/redis'),
+    // our user in mongodb
     User = require('../../database/models/User');
 
 var internals = {};
-
+/**
+ * ## registerUser
+ *
+ * Encrypt the password and store the user
+ */
 internals.registerUser = function (req, reply) {
 
   req.payload.password = Crypto.encrypt(req.payload.password);
   req.payload.emailVerified = false;
   var user = new User(req.payload);
-
+  
+  //save the user w/ the encrypted password
   user.save(function (err, user) {
-
     if (err) {
       reply({
 	statusCode: 503,
@@ -30,11 +53,11 @@ internals.registerUser = function (req, reply) {
         username: user.username,
         id: user._id
       };
-      
+      // send an email verification with a JWT token
       Mailer.sendMailVerificationLink(user,
                                       JasonWebToken.sign(tokenData,
                                                          Config.crypto.privateKey));
-      
+      //Let the user know they are registered
       reply({
 	statusCode: 201,
 	message: "User registered.",
@@ -43,7 +66,13 @@ internals.registerUser = function (req, reply) {
     }
   });
 };
-
+/**
+ * ## loginUser
+ *
+ * Find the user by username, verify the password matches and return a
+ * message with a token for subsequent usage
+ *
+ */
 internals.loginUser = function (req, reply) {
 
   var credentials = {};
@@ -61,49 +90,53 @@ internals.loginUser = function (req, reply) {
     }
   });
 };
-
 /**
+ * ## logoutUser
  *
  * Create a token blacklist with Redis
  * see: https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-keys/
  *
  */
 internals.logoutUser = function(req, reply) {
-  console.log('logoutUser.req.head.auth', req.headers.authorization);
   var headers = req.headers.authorization.split(' ');
   redisClient.set(headers[1], new Date());
   reply({success: true, message: 'Logged out'});
 };
-
+/**
+ * ## verifyEmail
+ *
+ * If the token is verified, find the user using the decoded info
+ * from the token.
+ *
+ * Set the emailVeried to true if user is found
+ *
+ */
 internals.verifyEmail = function (req, reply) {
-  console.log('verifyEmail: ' + req.params.token);
   JasonWebToken.verify(req.params.token, Config.crypto.privateKey, function(err, decoded) {
-    console.log('verifyEmail.err',err);
-    console.log('verifyEmail.decoded',decoded);
     if(decoded === undefined) {
       return reply(Boom.forbidden("invalid verification link"));
     }
     
     User.findUserByIdAndUserName(decoded.id, decoded.username, function(err, user){
+      //oops, something wrong
       if (err) {
-        console.error(err);
         return reply(Boom.badImplementation(err));
       }
-      if (user === null) {
-        return reply(Boom.forbidden("invalid"
-                                    + " verification"
-                                    + " link"));
-      }
       
+      //No user found for this link
+      if (user === null) {
+        return reply(Boom.forbidden("invalid verification link"));
+      }
+
+      //not sure if this is really an error...
       if (user.isVerified === true) {
         return reply(Boom.forbidden("account is already verified"));
       }
 
-      
+      //Everything is fine, update the users flag for emailVerified
       user.emailVerified = true;
       user.save(function(err){
         if (err) {
-          console.error(err);
           return reply(Boom.badImplementation(err));
         }
         return reply("account sucessfully verified");
@@ -113,13 +146,17 @@ internals.verifyEmail = function (req, reply) {
     
   });
 };
-
+/**
+ * ## resetPasswordRequest
+ *
+ */
 internals.resetPasswordRequest = function (req, reply) {
-  console.log('resetPasswordRequest.email: ' + req.payload.email);
   User.findUserByEmail(req.payload.email, function(err, user) {
     if (err) {
-      console.log('resetPasswordRequest.err: ' + err);
+      return reply(Boom.badImplementation(err));
     }
+    
+
     //Provide no indication if user exists
     if (user) {
       var tokenData = {
@@ -143,12 +180,20 @@ internals.resetPasswordRequest = function (req, reply) {
 /**
  * Display the resetPassword form
  */
+/**
+ * ## Imports
+ *
+ */
 internals.displayResetPassword = function (req, reply) {
   reply.view('resetpassword', {token: req.params.token});
 };
 
 /**
  * Update password of user
+ */
+/**
+ * ## Imports
+ *
  */
 internals.resetPassword = function (req, reply) {
   

@@ -1,8 +1,21 @@
+/**
+ * # general/endpoints.js
+ *
+ * This supports a status and env request
+ *
+ */
 'use strict';
-
-var GeneralHandlers = require('./handlers');
-var internals = {};
-
+/**
+ * ## Imports
+ *
+ */
+var GeneralHandlers = require('./handlers'),
+    internals = {};
+/**
+ * ## endpoints
+ *
+ * both are simple gets
+ */
 internals.endpoints = [
   {
     method: 'GET',

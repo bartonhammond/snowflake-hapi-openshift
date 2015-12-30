@@ -1,8 +1,28 @@
+/**
+ * # ErrorAlert.js
+ *
+ * This class uses a component which displays the appropriate alert
+ * depending on the platform
+ *
+ * The main purpose here is to determine if there is an error and then
+ * plucking off the message depending on the shape of the error object.
+ */
+'use strict';
+/**
+ * ## Imports
+ *
+ */
 var Joi = require('joi');
 var AccountHandlers = require('./handlers');
 
 var internals = {};
-
+/**
+ * ## Set the method, path, and handler
+ *
+ * Note the account/logout requires authentication
+ *
+ * Note the validation of the account/register parameters
+ */
 internals.endpoints = [
   {
     method: 'POST',

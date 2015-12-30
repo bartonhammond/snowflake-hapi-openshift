@@ -1,35 +1,58 @@
+/**
+ * # ErrorAlert.js
+ *
+ * This class uses a component which displays the appropriate alert
+ * depending on the platform
+ *
+ * The main purpose here is to determine if there is an error and then
+ * plucking off the message depending on the shape of the error object.
+ */
+'use strict';
+/**
+* ## Imports
+*
+*/
 var  Config = require('../config'),
     internals = {},
     Jwt = require('jsonwebtoken'),
     redisClient = require('../database/redis'),
     User = require('../database/models/User.js');
 
-
+// private key for signing
 internals.privateKey = Config.crypto.privateKey;
 
 /**
+ *
+ * ## validate
+ *
  *  When a route is configured w/ 'auth', this validate function is
  * invoked
  * 
  * If the token wasn't invalidated w/ logout, then validate
-* its for a user
+ * its for a user
+ *
+ * When a user logs out, the token they were using is saved to Redis
+ * and checked here to prevent re-use
+ *
  */
 internals.validate = function (request, decodedToken, callback) {
   
   var credentials = {};
-  
+  //credentials have 'Bearer dfadfsdf'
   var headers = request.headers.authorization.split(' ');
   if (headers.length === 2) {
+    //does redis have the token
     redisClient.get(headers[1], function (err, reply) {
       if (err) {
         console.log(err);
         return callback(err, false, credentials);		        
       }
       
+      //oops - it's been blacklisted - sorry
       if (reply) {
         return callback({message: 'invalid auth token'}, false, credentials);		        
       }
-
+      // ok - valid token, do we have a user?
       User.findOne({ username: decodedToken.username, email: decodedToken.email }, function (err, user) {
 
         if (err) {

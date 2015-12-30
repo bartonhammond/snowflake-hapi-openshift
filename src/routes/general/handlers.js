@@ -1,9 +1,29 @@
+/**
+ * # general/handlers.js
+ *
+ * Simple display of status and the environment we're running in
+ *
+ */
+'use strict';
+
+/**
+* ## Declaration
+*
+*/
 var internals = {};
 
+/**
+* ## status - are we alive?
+*
+*/
 internals.status = function (req, reply) {
   reply( {"status": "ok"} );
 };
 
+/**
+* ## env - display the environment variables available
+*
+*/
 internals.env = function (req, reply) {
   var content = 'Version: ' + process.version + '\n<br/>\n' +
         'Env: {<br/>\n<pre>';
