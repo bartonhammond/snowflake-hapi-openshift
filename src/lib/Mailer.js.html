@@ -18,6 +18,27 @@
     </div>
     <div id="tree"></div>
     <div id="headings">
+      <div class="heading h1">
+        <a href="#mailer.js">Mailer.js</a>
+      </div>
+      <div class="heading h2">
+        <a href="#imports">Imports</a>
+      </div>
+      <div class="heading h2">
+        <a href="#transporter">transporter</a>
+      </div>
+      <div class="heading h2">
+        <a href="#geturl">getUrl</a>
+      </div>
+      <div class="heading h2">
+        <a href="#sendmailverificationlink">sendMailVerificationLink</a>
+      </div>
+      <div class="heading h2">
+        <a href="#sendmailresetpassword">sendMailResetPassword</a>
+      </div>
+      <div class="heading h2">
+        <a href="#mail">mail</a>
+      </div>
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -25,24 +46,66 @@
 <table cellpadding="0" cellspacing="0">
   <tbody>
       <tr>
-        <td class="docs">
-          <h1>Mailer.js</h1>
-        </td>
-        <td class="code highlight"></td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="mailer.js">
+  <h1>
+    <a href="#mailer.js" name="mailer.js" class="pilcrow">&#182;</a>
+    Mailer.js
+  </h1>
 </div>
 
+  </div>
+  <div class="body"><p>Create email and send content</p>
+  </div>
+</div>
         </td>
         <td class="code highlight"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="imports">
+  <h2>
+    <a href="#imports" name="imports" class="pilcrow">&#182;</a>
+    Imports
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">var</span> <span class="nx">nodemailer</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;nodemailer&quot;</span><span class="p">),</span>
     <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../config&#39;</span><span class="p">);</span>
 
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="transporter">
+  <h2>
+    <a href="#transporter" name="transporter" class="pilcrow">&#182;</a>
+    transporter
+  </h2>
+</div>
+
+
+<p>configure the email provider</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">var</span> <span class="nx">transporter</span> <span class="o">=</span> <span class="nx">nodemailer</span><span class="p">.</span><span class="nx">createTransport</span><span class="p">({</span>
   <span class="nx">service</span><span class="o">:</span> <span class="s2">&quot;Gmail&quot;</span><span class="p">,</span>
   <span class="nx">auth</span><span class="o">:</span> <span class="p">{</span>
@@ -51,6 +114,27 @@
   <span class="p">}</span>
 <span class="p">});</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="geturl">
+  <h2>
+    <a href="#geturl" name="geturl" class="pilcrow">&#182;</a>
+    getUrl
+  </h2>
+</div>
+
+
+<p>Local or OpenShift</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">function</span> <span class="nx">getUrl</span><span class="p">(</span> <span class="p">)</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
   <span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">OPENSHIFT_APP_DNS</span><span class="p">)</span> <span class="p">{</span>
@@ -60,13 +144,33 @@
   <span class="p">}</span>
   <span class="k">return</span> <span class="nx">url</span><span class="p">;</span>
 <span class="p">}</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="sendmailverificationlink">
+  <h2>
+    <a href="#sendmailverificationlink" name="sendmailverificationlink" class="pilcrow">&#182;</a>
+    sendMailVerificationLink
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>send email for verification of the account's email address</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">exports</span><span class="p">.</span><span class="nx">sendMailVerificationLink</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">,</span><span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">getUrl</span><span class="p">();</span>
   <span class="kd">var</span> <span class="nx">from</span> <span class="o">=</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">email</span><span class="p">.</span><span class="nx">accountName</span><span class="p">;</span>
   <span class="kd">var</span> <span class="nx">mailbody</span> <span class="o">=</span> <span class="s2">&quot;&lt;p&gt;Thanks for Registering on&quot;</span>
         <span class="o">+</span> <span class="s2">&quot; &quot;</span>
         <span class="o">+</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">email</span><span class="p">.</span><span class="nx">accountName</span>
-        <span class="o">+</span><span class="s2">&quot; &lt;/p&gt;&lt;p&gt;Please verify your email by clicking on the&quot;</span>
+    <span class="o">+</span><span class="s2">&quot; &lt;/p&gt;&lt;p&gt;Please verify your email by clicking on the&quot;</span>
         <span class="o">+</span> <span class="s2">&quot; verification link below.&lt;br/&gt;&lt;a href=&#39;&quot;</span>
         <span class="o">+</span> <span class="nx">url</span>
         <span class="o">+</span> <span class="s2">&quot;/account/verifyEmail/&quot;</span>
@@ -75,6 +179,25 @@
   <span class="nx">mail</span><span class="p">(</span><span class="nx">from</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">email</span> <span class="p">,</span> <span class="s2">&quot;Account Verification&quot;</span><span class="p">,</span> <span class="nx">mailbody</span><span class="p">);</span>
 <span class="p">};</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="sendmailresetpassword">
+  <h2>
+    <a href="#sendmailresetpassword" name="sendmailresetpassword" class="pilcrow">&#182;</a>
+    sendMailResetPassword
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>Set email to user so they can reset their password</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">exports</span><span class="p">.</span><span class="nx">sendMailResetPassword</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">,</span> <span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
 
   <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">getUrl</span><span class="p">();</span>
@@ -82,7 +205,7 @@
   <span class="kd">var</span> <span class="nx">mailbody</span> <span class="o">=</span> <span class="s2">&quot;&lt;p&gt;A reset password action has been requested from&quot;</span>
         <span class="o">+</span> <span class="s2">&quot; &quot;</span>
         <span class="o">+</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">email</span><span class="p">.</span><span class="nx">accountName</span>
-        <span class="o">+</span><span class="s2">&quot; &lt;/p&gt;&lt;p&gt;Please click on the &quot;</span>
+    <span class="o">+</span><span class="s2">&quot; &lt;/p&gt;&lt;p&gt;Please click on the &quot;</span>
         <span class="o">+</span> <span class="s2">&quot; reset password link below.&lt;br/&gt;&quot;</span>
         <span class="o">+</span> <span class="s2">&quot; The link is only available for 15 minutes.&lt;br/&gt;&quot;</span>
         <span class="o">+</span> <span class="s2">&quot;&lt;a href=&#39;&quot;</span>
@@ -93,6 +216,25 @@
   <span class="nx">mail</span><span class="p">(</span><span class="nx">from</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">email</span> <span class="p">,</span> <span class="s2">&quot;Reset Password&quot;</span><span class="p">,</span> <span class="nx">mailbody</span><span class="p">);</span>
 <span class="p">};</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="mail">
+  <h2>
+    <a href="#mail" name="mail" class="pilcrow">&#182;</a>
+    mail
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>The main function, sends the email </p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">function</span> <span class="nx">mail</span><span class="p">(</span><span class="nx">from</span><span class="p">,</span> <span class="nx">email</span><span class="p">,</span> <span class="nx">subject</span><span class="p">,</span> <span class="nx">mailbody</span><span class="p">){</span>
   <span class="kd">var</span> <span class="nx">mailOptions</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">from</span><span class="o">:</span> <span class="nx">from</span><span class="p">,</span> <span class="c1">// sender address</span>

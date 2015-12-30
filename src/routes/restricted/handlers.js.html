@@ -18,6 +18,12 @@
     </div>
     <div id="tree"></div>
     <div id="headings">
+      <div class="heading h1">
+        <a href="#restricted%2Fhandlers.js">restricted/handlers.js</a>
+      </div>
+      <div class="heading h2">
+        <a href="#restrictedarea%20-%20you%20can%20only%20reach%20here%20if%20you've%20passed">restrictedArea - you can only reach here if you've passed</a>
+      </div>
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -25,22 +31,46 @@
 <table cellpadding="0" cellspacing="0">
   <tbody>
       <tr>
-        <td class="docs">
-          <h1>handlers.js</h1>
-        </td>
-        <td class="code highlight"></td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="restricted%2Fhandlers.js">
+  <h1>
+    <a href="#restricted%2Fhandlers.js" name="restricted%2Fhandlers.js" class="pilcrow">&#182;</a>
+    restricted/handlers.js
+  </h1>
 </div>
 
+  </div>
+  <div class="body"><p>Display simple message if user has access</p>
+  </div>
+</div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span>
+        <td class="code highlight"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
 
+<span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="restrictedarea%20-%20you%20can%20only%20reach%20here%20if%20you've%20passed">
+  <h2>
+    <a href="#restrictedarea%20-%20you%20can%20only%20reach%20here%20if%20you've%20passed" name="restrictedarea%20-%20you%20can%20only%20reach%20here%20if%20you've%20passed" class="pilcrow">&#182;</a>
+    restrictedArea - you can only reach here if you've passed
+  </h2>
+</div>
+
+
+<p>authentication</p>
+  </div>
+  <div class="body"><p>note: the user name is available from the credentials!</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">restrictedArea</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
-
   <span class="nx">reply</span><span class="p">({</span> <span class="nx">message</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">auth</span><span class="p">.</span><span class="nx">credentials</span><span class="p">.</span><span class="nx">username</span> <span class="o">+</span> <span class="s1">&#39;, welcome to restricted area!&#39;</span> <span class="p">});</span>
 <span class="p">};</span>
 

@@ -18,6 +18,12 @@
     </div>
     <div id="tree"></div>
     <div id="headings">
+      <div class="heading h1">
+        <a href="#plugins.js">plugins.js</a>
+      </div>
+      <div class="heading h2">
+        <a href="#plugins">plugins</a>
+      </div>
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -25,27 +31,56 @@
 <table cellpadding="0" cellspacing="0">
   <tbody>
       <tr>
-        <td class="docs">
-          <h1>plugins.js</h1>
-        </td>
-        <td class="code highlight"></td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="plugins.js">
+  <h1>
+    <a href="#plugins.js" name="plugins.js" class="pilcrow">&#182;</a>
+    plugins.js
+  </h1>
 </div>
 
+  </div>
+  <div class="body"><p>Plugins are like middleware, they get used 'automagically'</p>
+  </div>
+</div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span>
+        <td class="code highlight"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
 
+
+<span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="plugins">
+  <h2>
+    <a href="#plugins" name="plugins" class="pilcrow">&#182;</a>
+    plugins
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>when a route is config'd with auth, the hapi-auth-jwt will be invoked</p>
+
+<p>the good module prints out messages</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">plugins</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">[</span>
     <span class="p">{</span>
+
       <span class="nx">register</span><span class="o">:</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;hapi-auth-jwt&#39;</span><span class="p">),</span>
       <span class="nx">options</span><span class="o">:</span> <span class="p">{}</span>
     <span class="p">},</span>
     <span class="p">{</span>
+
       <span class="nx">register</span><span class="o">:</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;good&#39;</span><span class="p">),</span>
       <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
         <span class="nx">opsInterval</span><span class="o">:</span> <span class="mi">1000</span><span class="p">,</span>

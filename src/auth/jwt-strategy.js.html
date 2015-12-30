@@ -18,6 +18,15 @@
     </div>
     <div id="tree"></div>
     <div id="headings">
+      <div class="heading h1">
+        <a href="#erroralert.js">ErrorAlert.js</a>
+      </div>
+      <div class="heading h2">
+        <a href="#imports">Imports</a>
+      </div>
+      <div class="heading h2">
+        <a href="#validate">validate</a>
+      </div>
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -25,26 +34,50 @@
 <table cellpadding="0" cellspacing="0">
   <tbody>
       <tr>
-        <td class="docs">
-          <h1>jwt-strategy.js</h1>
-        </td>
-        <td class="code highlight"></td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="erroralert.js">
+  <h1>
+    <a href="#erroralert.js" name="erroralert.js" class="pilcrow">&#182;</a>
+    ErrorAlert.js
+  </h1>
 </div>
 
+  </div>
+  <div class="body"><p>This class uses a component which displays the appropriate alert
+depending on the platform</p>
+
+<p>The main purpose here is to determine if there is an error and then
+plucking off the message depending on the shape of the error object.</p>
+  </div>
+</div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span>  <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../config&#39;</span><span class="p">),</span>
+        <td class="code highlight"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="imports">
+  <h2>
+    <a href="#imports" name="imports" class="pilcrow">&#182;</a>
+    Imports
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="kd">var</span>  <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../config&#39;</span><span class="p">),</span>
     <span class="nx">internals</span> <span class="o">=</span> <span class="p">{},</span>
     <span class="nx">Jwt</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jsonwebtoken&#39;</span><span class="p">),</span>
     <span class="nx">redisClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../database/redis&#39;</span><span class="p">),</span>
     <span class="nx">User</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../database/models/User.js&#39;</span><span class="p">);</span>
-
-
-<span class="nx">internals</span><span class="p">.</span><span class="nx">privateKey</span> <span class="o">=</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">;</span>
 
 
 </pre></div>
@@ -53,14 +86,38 @@
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
 </div>
-<div class="dox">
-  <div class="summary"><p>When a route is configured w/ 'auth', this validate function is
-invoked</p>
+<p>private key for signing</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">internals</span><span class="p">.</span><span class="nx">privateKey</span> <span class="o">=</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">;</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
   </div>
-  <div class="body"><p>If the token wasn't invalidated w/ logout, then validate
+  <div class="body">
+<div class="pilwrap" id="validate">
+  <h2>
+    <a href="#validate" name="validate" class="pilcrow">&#182;</a>
+    validate
+  </h2>
+</div>
+
+
+<p>When a route is configured w/ 'auth', this validate function is
+invoked</p>
+
+<p>If the token wasn't invalidated w/ logout, then validate
 its for a user</p>
+
+<p>When a user logs out, the token they were using is saved to Redis
+and checked here to prevent re-use</p>
   </div>
 </div>
         </td>
@@ -68,19 +125,65 @@ its for a user</p>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">validate</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">decodedToken</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
   
   <span class="kd">var</span> <span class="nx">credentials</span> <span class="o">=</span> <span class="p">{};</span>
-  
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<p>credentials have 'Bearer dfadfsdf'</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
   <span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">authorization</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
   <span class="k">if</span> <span class="p">(</span><span class="nx">headers</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+</div>
+<p>does redis have the token</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">redisClient</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">headers</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
         <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">);</span>           
       <span class="p">}</span>
       
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+</div>
+<p>oops - it's been blacklisted - sorry</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
       <span class="k">if</span> <span class="p">(</span><span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="nx">callback</span><span class="p">({</span><span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;invalid auth token&#39;</span><span class="p">},</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">);</span>           
       <span class="p">}</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
+</div>
+<p>ok - valid token, do we have a user?</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
       <span class="nx">User</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="nx">decodedToken</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="nx">decodedToken</span><span class="p">.</span><span class="nx">email</span> <span class="p">},</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
@@ -105,7 +208,7 @@ its for a user</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
 </div>
 <p>create token</p>
         </td>
@@ -121,7 +224,7 @@ its for a user</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
 </div>
 <p>set jwt auth strategy</p>
         </td>

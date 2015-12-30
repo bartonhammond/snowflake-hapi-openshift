@@ -18,6 +18,12 @@
     </div>
     <div id="tree"></div>
     <div id="headings">
+      <div class="heading h1">
+        <a href="#routes.js">routes.js</a>
+      </div>
+      <div class="heading h2">
+        <a href="#all%20the%20routes%20are%20joined">All the routes are joined</a>
+      </div>
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -25,30 +31,79 @@
 <table cellpadding="0" cellspacing="0">
   <tbody>
       <tr>
-        <td class="docs">
-          <h1>routes.js</h1>
-        </td>
-        <td class="code highlight"></td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="routes.js">
+  <h1>
+    <a href="#routes.js" name="routes.js" class="pilcrow">&#182;</a>
+    routes.js
+  </h1>
 </div>
 
+  </div>
+  <div class="body"><p>All the routes available are defined here
+The endpoints descripe the method (POST/GET...)
+and the url ('account/login')
+and the handler</p>
+  </div>
+</div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">AccountRoutes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../routes/account/endpoints&#39;</span><span class="p">),</span>
+        <td class="code highlight"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="all%20the%20routes%20are%20joined">
+  <h2>
+    <a href="#all%20the%20routes%20are%20joined" name="all%20the%20routes%20are%20joined" class="pilcrow">&#182;</a>
+    All the routes are joined
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="kd">var</span> <span class="nx">AccountRoutes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../routes/account/endpoints&#39;</span><span class="p">),</span>
     <span class="nx">GeneralRoutes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../routes/general/endpoints&#39;</span><span class="p">),</span>
     <span class="nx">RestrictedRoutes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../routes/restricted/endpoints&#39;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span>
 
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>Concatentate the routes into one array</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">routes</span> <span class="o">=</span> <span class="p">[].</span><span class="nx">concat</span><span class="p">(</span><span class="nx">AccountRoutes</span><span class="p">.</span><span class="nx">endpoints</span><span class="p">,</span>
                              <span class="nx">GeneralRoutes</span><span class="p">.</span><span class="nx">endpoints</span><span class="p">,</span>
                              <span class="nx">RestrictedRoutes</span><span class="p">.</span><span class="nx">endpoints</span><span class="p">);</span>
 
-<span class="nx">internals</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">server</span><span class="p">)</span> <span class="p">{</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>set the routes for the server</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">internals</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">server</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">server</span><span class="p">.</span><span class="nx">route</span><span class="p">(</span><span class="nx">internals</span><span class="p">.</span><span class="nx">routes</span><span class="p">);</span>
 <span class="p">};</span>
 

@@ -18,6 +18,33 @@
     </div>
     <div id="tree"></div>
     <div id="headings">
+      <div class="heading h1">
+        <a href="#account%2Fhandlers.js">account/handlers.js</a>
+      </div>
+      <div class="heading h2">
+        <a href="#imports">Imports</a>
+      </div>
+      <div class="heading h2">
+        <a href="#registeruser">registerUser</a>
+      </div>
+      <div class="heading h2">
+        <a href="#loginuser">loginUser</a>
+      </div>
+      <div class="heading h2">
+        <a href="#logoutuser">logoutUser</a>
+      </div>
+      <div class="heading h2">
+        <a href="#verifyemail">verifyEmail</a>
+      </div>
+      <div class="heading h2">
+        <a href="#resetpasswordrequest">resetPasswordRequest</a>
+      </div>
+      <div class="heading h2">
+        <a href="#imports">Imports</a>
+      </div>
+      <div class="heading h2">
+        <a href="#imports">Imports</a>
+      </div>
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -25,20 +52,41 @@
 <table cellpadding="0" cellspacing="0">
   <tbody>
       <tr>
-        <td class="docs">
-          <h1>handlers.js</h1>
-        </td>
-        <td class="code highlight"></td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="account%2Fhandlers.js">
+  <h1>
+    <a href="#account%2Fhandlers.js" name="account%2Fhandlers.js" class="pilcrow">&#182;</a>
+    account/handlers.js
+  </h1>
 </div>
 
+  </div>
+  <div class="body"><p>This handles all the account actions</p>
+  </div>
+</div>
         </td>
         <td class="code highlight"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="imports">
+  <h2>
+    <a href="#imports" name="imports" class="pilcrow">&#182;</a>
+    Imports
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">var</span> <span class="nx">Boom</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;boom&#39;</span><span class="p">),</span>
     <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../config&#39;</span><span class="p">),</span>    
     <span class="nx">Crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../lib/Crypto&#39;</span><span class="p">),</span>
@@ -51,14 +99,44 @@
 
 <span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="registeruser">
+  <h2>
+    <a href="#registeruser" name="registeruser" class="pilcrow">&#182;</a>
+    registerUser
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>Encrypt the password and store the user</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">registerUser</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
 
   <span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">password</span> <span class="o">=</span> <span class="nx">Crypto</span><span class="p">.</span><span class="nx">encrypt</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">password</span><span class="p">);</span>
   <span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">emailVerified</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
   <span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">);</span>
+  
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>save the user w/ the encrypted password</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
   <span class="nx">user</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
-
     <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
       <span class="nx">reply</span><span class="p">({</span>
   <span class="nx">statusCode</span><span class="o">:</span> <span class="mi">503</span><span class="p">,</span>
@@ -69,11 +147,33 @@
         <span class="nx">username</span><span class="o">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
         <span class="nx">id</span><span class="o">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">_id</span>
       <span class="p">};</span>
-      
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<p>send an email verification with a JWT token</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
       <span class="nx">Mailer</span><span class="p">.</span><span class="nx">sendMailVerificationLink</span><span class="p">(</span><span class="nx">user</span><span class="p">,</span>
                                       <span class="nx">JasonWebToken</span><span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="nx">tokenData</span><span class="p">,</span>
                                                          <span class="nx">Config</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">));</span>
-      
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+</div>
+<p>Let the user know they are registered</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
       <span class="nx">reply</span><span class="p">({</span>
   <span class="nx">statusCode</span><span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
   <span class="nx">message</span><span class="o">:</span> <span class="s2">&quot;User registered.&quot;</span><span class="p">,</span>
@@ -83,6 +183,26 @@
   <span class="p">});</span>
 <span class="p">};</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="loginuser">
+  <h2>
+    <a href="#loginuser" name="loginuser" class="pilcrow">&#182;</a>
+    loginUser
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>Find the user by username, verify the password matches and return a
+message with a token for subsequent usage</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">loginUser</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
 
   <span class="kd">var</span> <span class="nx">credentials</span> <span class="o">=</span> <span class="p">{};</span>
@@ -101,17 +221,19 @@
   <span class="p">});</span>
 <span class="p">};</span>
 
-
 </pre></div>
         </td>
       </tr>
       <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
-</div>
-<div class="dox">
+        <td class="docs"><div class="dox">
   <div class="summary">
+<div class="pilwrap" id="logoutuser">
+  <h2>
+    <a href="#logoutuser" name="logoutuser" class="pilcrow">&#182;</a>
+    logoutUser
+  </h2>
+</div>
+
   </div>
   <div class="body"><p>Create a token blacklist with Redis
 see: <a href='https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-keys/'>https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-keys/</a></p>
@@ -120,41 +242,103 @@ see: <a href='https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-key
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">logoutUser</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;logoutUser.req.head.auth&#39;</span><span class="p">,</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">authorization</span><span class="p">);</span>
   <span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">authorization</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
   <span class="nx">redisClient</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">headers</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">());</span>
   <span class="nx">reply</span><span class="p">({</span><span class="nx">success</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;Logged out&#39;</span><span class="p">});</span>
 <span class="p">};</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="verifyemail">
+  <h2>
+    <a href="#verifyemail" name="verifyemail" class="pilcrow">&#182;</a>
+    verifyEmail
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>If the token is verified, find the user using the decoded info
+from the token.</p>
+
+<p>Set the emailVeried to true if user is found</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">verifyEmail</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;verifyEmail: &#39;</span> <span class="o">+</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">token</span><span class="p">);</span>
   <span class="nx">JasonWebToken</span><span class="p">.</span><span class="nx">verify</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">token</span><span class="p">,</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">decoded</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;verifyEmail.err&#39;</span><span class="p">,</span><span class="nx">err</span><span class="p">);</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;verifyEmail.decoded&#39;</span><span class="p">,</span><span class="nx">decoded</span><span class="p">);</span>
     <span class="k">if</span><span class="p">(</span><span class="nx">decoded</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">forbidden</span><span class="p">(</span><span class="s2">&quot;invalid verification link&quot;</span><span class="p">));</span>
     <span class="p">}</span>
     
     <span class="nx">User</span><span class="p">.</span><span class="nx">findUserByIdAndUserName</span><span class="p">(</span><span class="nx">decoded</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">decoded</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">){</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
+</div>
+<p>oops, something wrong</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
       <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
         <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">badImplementation</span><span class="p">(</span><span class="nx">err</span><span class="p">));</span>
       <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">user</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">forbidden</span><span class="p">(</span><span class="s2">&quot;invalid&quot;</span>
-                                    <span class="o">+</span> <span class="s2">&quot; verification&quot;</span>
-                                    <span class="o">+</span> <span class="s2">&quot; link&quot;</span><span class="p">));</span>
-      <span class="p">}</span>
       
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
+</div>
+<p>No user found for this link</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">user</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">forbidden</span><span class="p">(</span><span class="s2">&quot;invalid verification link&quot;</span><span class="p">));</span>
+      <span class="p">}</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
+</div>
+<p>not sure if this is really an error...</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
       <span class="k">if</span> <span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">isVerified</span> <span class="o">===</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">forbidden</span><span class="p">(</span><span class="s2">&quot;account is already verified&quot;</span><span class="p">));</span>
       <span class="p">}</span>
 
-      
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+</div>
+<p>Everything is fine, update the users flag for emailVerified</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
       <span class="nx">user</span><span class="p">.</span><span class="nx">emailVerified</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
       <span class="nx">user</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span>
         <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-          <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
           <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">badImplementation</span><span class="p">(</span><span class="nx">err</span><span class="p">));</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="s2">&quot;account sucessfully verified&quot;</span><span class="p">);</span>
@@ -165,12 +349,32 @@ see: <a href='https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-key
   <span class="p">});</span>
 <span class="p">};</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="resetpasswordrequest">
+  <h2>
+    <a href="#resetpasswordrequest" name="resetpasswordrequest" class="pilcrow">&#182;</a>
+    resetPasswordRequest
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">resetPasswordRequest</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;resetPasswordRequest.email: &#39;</span> <span class="o">+</span> <span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">email</span><span class="p">);</span>
   <span class="nx">User</span><span class="p">.</span><span class="nx">findUserByEmail</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;resetPasswordRequest.err: &#39;</span> <span class="o">+</span> <span class="nx">err</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">badImplementation</span><span class="p">(</span><span class="nx">err</span><span class="p">));</span>
     <span class="p">}</span>
+    
+
 
 </pre></div>
         </td>
@@ -178,7 +382,7 @@ see: <a href='https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-key
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
 </div>
 <p>Provide no indication if user exists</p>
         </td>
@@ -207,12 +411,22 @@ see: <a href='https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-key
         </td>
       </tr>
       <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
-</div>
-<div class="dox">
+        <td class="docs"><div class="dox">
   <div class="summary"><p>Display the resetPassword form</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+
+<div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="imports">
+  <h2>
+    <a href="#imports" name="imports" class="pilcrow">&#182;</a>
+    Imports
+  </h2>
+</div>
+
   </div>
   <div class="body">
   </div>
@@ -228,12 +442,22 @@ see: <a href='https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-key
         </td>
       </tr>
       <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
-</div>
-<div class="dox">
+        <td class="docs"><div class="dox">
   <div class="summary"><p>Update password of user</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+
+<div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="imports">
+  <h2>
+    <a href="#imports" name="imports" class="pilcrow">&#182;</a>
+    Imports
+  </h2>
+</div>
+
   </div>
   <div class="body">
   </div>
@@ -255,7 +479,7 @@ see: <a href='https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-key
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
 </div>
 <p>Must fit w/in time allocated</p>
         </td>

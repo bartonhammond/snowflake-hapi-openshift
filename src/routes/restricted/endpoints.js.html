@@ -18,6 +18,15 @@
     </div>
     <div id="tree"></div>
     <div id="headings">
+      <div class="heading h1">
+        <a href="#this%20is%20our%20one%20restricted%20endpoint%20(beside%20logout)">This is our one restricted endpoint (beside logout)</a>
+      </div>
+      <div class="heading h2">
+        <a href="#imports">Imports</a>
+      </div>
+      <div class="heading h2">
+        <a href="#endpoints">endpoints</a>
+      </div>
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -25,22 +34,66 @@
 <table cellpadding="0" cellspacing="0">
   <tbody>
       <tr>
-        <td class="docs">
-          <h1>endpoints.js</h1>
-        </td>
-        <td class="code highlight"></td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="this%20is%20our%20one%20restricted%20endpoint%20(beside%20logout)">
+  <h1>
+    <a href="#this%20is%20our%20one%20restricted%20endpoint%20(beside%20logout)" name="this%20is%20our%20one%20restricted%20endpoint%20(beside%20logout)" class="pilcrow">&#182;</a>
+    This is our one restricted endpoint (beside logout)
+  </h1>
 </div>
 
+  </div>
+  <div class="body">
+  </div>
+</div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">RestrictedHandlers</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./handlers&#39;</span><span class="p">);</span>
+        <td class="code highlight"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="imports">
+  <h2>
+    <a href="#imports" name="imports" class="pilcrow">&#182;</a>
+    Imports
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="kd">var</span> <span class="nx">RestrictedHandlers</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./handlers&#39;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="endpoints">
+  <h2>
+    <a href="#endpoints" name="endpoints" class="pilcrow">&#182;</a>
+    endpoints
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>note the config which means authentication is required to access
+this end point</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">endpoints</span> <span class="o">=</span> <span class="p">[</span>
   <span class="p">{</span>
     <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>

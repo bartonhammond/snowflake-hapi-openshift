@@ -18,6 +18,18 @@
     </div>
     <div id="tree"></div>
     <div id="headings">
+      <div class="heading h1">
+        <a href="#erroralert.js">ErrorAlert.js</a>
+      </div>
+      <div class="heading h2">
+        <a href="#imports">Imports</a>
+      </div>
+      <div class="heading h2">
+        <a href="#method%20to%20decrypt%20data(password)">method to decrypt data(password)</a>
+      </div>
+      <div class="heading h2">
+        <a href="#method%20to%20encrypt%20data(password)">method to encrypt data(password)</a>
+      </div>
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -25,20 +37,45 @@
 <table cellpadding="0" cellspacing="0">
   <tbody>
       <tr>
-        <td class="docs">
-          <h1>Crypto.js</h1>
-        </td>
-        <td class="code highlight"></td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="erroralert.js">
+  <h1>
+    <a href="#erroralert.js" name="erroralert.js" class="pilcrow">&#182;</a>
+    ErrorAlert.js
+  </h1>
 </div>
 
+  </div>
+  <div class="body"><p>This class uses a component which displays the appropriate alert
+depending on the platform</p>
+
+<p>The main purpose here is to determine if there is an error and then
+plucking off the message depending on the shape of the error object.</p>
+  </div>
+</div>
         </td>
         <td class="code highlight"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="imports">
+  <h2>
+    <a href="#imports" name="imports" class="pilcrow">&#182;</a>
+    Imports
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">var</span> <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../config&#39;</span><span class="p">),</span>
     <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;crypto&#39;</span><span class="p">),</span>
     <span class="nx">algorithm</span> <span class="o">=</span> <span class="s1">&#39;aes-256-ctr&#39;</span><span class="p">;</span>
@@ -46,24 +83,12 @@
 <span class="kd">var</span> <span class="nx">privateKey</span> <span class="o">=</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">;</span>
 
 
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
-</div>
-<p>create reusable transport method (opens pool of SMTP connections)</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-
 <span class="nx">exports</span><span class="p">.</span><span class="nx">decrypt</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">decrypt</span><span class="p">(</span><span class="nx">password</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">decrypt</span><span class="p">(</span><span class="nx">password</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="nx">exports</span><span class="p">.</span><span class="nx">encrypt</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">encrypt</span><span class="p">(</span><span class="nx">password</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">encrypt</span><span class="p">(</span><span class="nx">password</span><span class="p">);</span>
 <span class="p">};</span>
 
 
@@ -71,37 +96,52 @@
         </td>
       </tr>
       <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="method%20to%20decrypt%20data(password)">
+  <h2>
+    <a href="#method%20to%20decrypt%20data(password)" name="method%20to%20decrypt%20data(password)" class="pilcrow">&#182;</a>
+    method to decrypt data(password)
+  </h2>
 </div>
-<p>method to decrypt data(password) </p>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">function</span> <span class="nx">decrypt</span><span class="p">(</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">decipher</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createDecipher</span><span class="p">(</span><span class="nx">algorithm</span><span class="p">,</span> <span class="nx">privateKey</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">dec</span> <span class="o">=</span> <span class="nx">decipher</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">password</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">,</span> <span class="s1">&#39;utf8&#39;</span><span class="p">);</span>
-    <span class="nx">dec</span> <span class="o">+=</span> <span class="nx">decipher</span><span class="p">.</span><span class="kr">final</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">dec</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">decipher</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createDecipher</span><span class="p">(</span><span class="nx">algorithm</span><span class="p">,</span> <span class="nx">privateKey</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">dec</span> <span class="o">=</span> <span class="nx">decipher</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">password</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">,</span> <span class="s1">&#39;utf8&#39;</span><span class="p">);</span>
+  <span class="nx">dec</span> <span class="o">+=</span> <span class="nx">decipher</span><span class="p">.</span><span class="kr">final</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">dec</span><span class="p">;</span>
 <span class="p">}</span>
-
 
 </pre></div>
         </td>
       </tr>
       <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="method%20to%20encrypt%20data(password)">
+  <h2>
+    <a href="#method%20to%20encrypt%20data(password)" name="method%20to%20encrypt%20data(password)" class="pilcrow">&#182;</a>
+    method to encrypt data(password)
+  </h2>
 </div>
-<p>method to encrypt data(password)</p>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">function</span> <span class="nx">encrypt</span><span class="p">(</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">cipher</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createCipher</span><span class="p">(</span><span class="nx">algorithm</span><span class="p">,</span> <span class="nx">privateKey</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">crypted</span> <span class="o">=</span> <span class="nx">cipher</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">password</span><span class="p">,</span> <span class="s1">&#39;utf8&#39;</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">);</span>
-    <span class="nx">crypted</span> <span class="o">+=</span> <span class="nx">cipher</span><span class="p">.</span><span class="kr">final</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">crypted</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">cipher</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createCipher</span><span class="p">(</span><span class="nx">algorithm</span><span class="p">,</span> <span class="nx">privateKey</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">crypted</span> <span class="o">=</span> <span class="nx">cipher</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">password</span><span class="p">,</span> <span class="s1">&#39;utf8&#39;</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">);</span>
+  <span class="nx">crypted</span> <span class="o">+=</span> <span class="nx">cipher</span><span class="p">.</span><span class="kr">final</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">crypted</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
         </td>

@@ -18,6 +18,18 @@
     </div>
     <div id="tree"></div>
     <div id="headings">
+      <div class="heading h1">
+        <a href="#mongodb.js">mongodb.js</a>
+      </div>
+      <div class="heading h2">
+        <a href="#imports">Imports</a>
+      </div>
+      <div class="heading h2">
+        <a href="#default%20the%20connection%20string%20to%20the%20development%20envionment">Default the connection string to the development envionment</a>
+      </div>
+      <div class="heading h2">
+        <a href="#set%20the%20connection%20string%20for%20the%20openshift%20environment">Set the connection string for the OpenShift environment</a>
+      </div>
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -25,21 +37,70 @@
 <table cellpadding="0" cellspacing="0">
   <tbody>
       <tr>
-        <td class="docs">
-          <h1>mongodb.js</h1>
-        </td>
-        <td class="code highlight"></td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="mongodb.js">
+  <h1>
+    <a href="#mongodb.js" name="mongodb.js" class="pilcrow">&#182;</a>
+    mongodb.js
+  </h1>
 </div>
 
-        </td>
-        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">Mongoose</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;mongoose&#39;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../config&#39;</span><span class="p">);</span>
+  </div>
+  <div class="body"><p>All the user information will be documents in MongoDB</p>
 
+<p>This class sets up the connection depending on the environment</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="imports">
+  <h2>
+    <a href="#imports" name="imports" class="pilcrow">&#182;</a>
+    Imports
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+
+<p>use mongoose as the ORM</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="kd">var</span> <span class="nx">Mongoose</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;mongoose&#39;</span><span class="p">),</span>
+    <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../config&#39;</span><span class="p">);</span>
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="default%20the%20connection%20string%20to%20the%20development%20envionment">
+  <h2>
+    <a href="#default%20the%20connection%20string%20to%20the%20development%20envionment" name="default%20the%20connection%20string%20to%20the%20development%20envionment" class="pilcrow">&#182;</a>
+    Default the connection string to the development envionment
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">var</span> <span class="nx">connection_string</span> <span class="o">=</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">mongodb</span><span class="p">.</span><span class="nx">ip</span>
       <span class="o">+</span> <span class="s1">&#39;:&#39;</span>
       <span class="o">+</span>  <span class="nx">Config</span><span class="p">.</span><span class="nx">mongodb</span><span class="p">.</span><span class="nx">port</span>
@@ -47,6 +108,25 @@
       <span class="o">+</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">mongodb</span><span class="p">.</span><span class="nx">app</span><span class="p">;</span>
 
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="set%20the%20connection%20string%20for%20the%20openshift%20environment">
+  <h2>
+    <a href="#set%20the%20connection%20string%20for%20the%20openshift%20environment" name="set%20the%20connection%20string%20for%20the%20openshift%20environment" class="pilcrow">&#182;</a>
+    Set the connection string for the OpenShift environment
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="k">if</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">OPENSHIFT_MONGODB_DB_HOST</span><span class="p">){</span>
   <span class="nx">connection_string</span> <span class="o">=</span>
     <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">OPENSHIFT_MONGODB_DB_USERNAME</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span>
