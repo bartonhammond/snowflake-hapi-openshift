@@ -117,11 +117,62 @@
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="k">if</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">OPENSHIFT_REDIS_HOST</span><span class="p">){</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<p>The redis env variables on openshift</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
   <span class="nx">connection_string</span><span class="p">.</span><span class="nx">host</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">OPENSHIFT_REDIS_HOST</span><span class="p">;</span>
   <span class="nx">connection_string</span><span class="p">.</span><span class="nx">port</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">OPENSHIFT_REDIS_PORT</span><span class="p">;</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+</div>
+<p>connect to Redis</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
   <span class="nx">redisClient</span> <span class="o">=</span> <span class="nx">Redis</span><span class="p">.</span><span class="nx">createClient</span><span class="p">(</span><span class="nx">connection_string</span><span class="p">);</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+</div>
+<p>have to authenticate</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
   <span class="nx">redisClient</span><span class="p">.</span><span class="nx">auth</span><span class="p">(</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_PASSWORD</span><span class="p">);</span>
 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
+</div>
+<p>running locally - make sure you've started redis server</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
   <span class="nx">redisClient</span> <span class="o">=</span> <span class="nx">Redis</span><span class="p">.</span><span class="nx">createClient</span><span class="p">(</span><span class="nx">connection_string</span><span class="p">);</span>    
 <span class="p">}</span>
 

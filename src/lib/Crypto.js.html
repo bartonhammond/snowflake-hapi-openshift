@@ -24,6 +24,12 @@
       <div class="heading h2">
         <a href="#imports">Imports</a>
       </div>
+      <div class="heading h3">
+        <a href="#public%20decrypt">public decrypt</a>
+      </div>
+      <div class="heading h3">
+        <a href="#public%20encrypt">public encrypt</a>
+      </div>
       <div class="heading h2">
         <a href="#method%20to%20decrypt%20data(password)">method to decrypt data(password)</a>
       </div>
@@ -74,19 +80,83 @@ plucking off the message depending on the shape of the error object.</p>
   <div class="body">
   </div>
 </div>
+
+<p>our configurations</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">var</span> <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../config&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>the crypto library</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;crypto&#39;</span><span class="p">),</span>
-    <span class="nx">algorithm</span> <span class="o">=</span> <span class="s1">&#39;aes-256-ctr&#39;</span><span class="p">;</span>
 
-<span class="kd">var</span> <span class="nx">privateKey</span> <span class="o">=</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">;</span>
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>algorithm for encryption</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">algorithm</span> <span class="o">=</span> <span class="s1">&#39;aes-256-ctr&#39;</span><span class="p">,</span>
+    <span class="nx">privateKey</span> <span class="o">=</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">;</span>
 
 
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="public%20decrypt">
+  <h3>
+    <a href="#public%20decrypt" name="public%20decrypt" class="pilcrow">&#182;</a>
+    public decrypt
+  </h3>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">exports</span><span class="p">.</span><span class="nx">decrypt</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">decrypt</span><span class="p">(</span><span class="nx">password</span><span class="p">);</span>
 <span class="p">};</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="public%20encrypt">
+  <h3>
+    <a href="#public%20encrypt" name="public%20encrypt" class="pilcrow">&#182;</a>
+    public encrypt
+  </h3>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">exports</span><span class="p">.</span><span class="nx">encrypt</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">encrypt</span><span class="p">(</span><span class="nx">password</span><span class="p">);</span>
 <span class="p">};</span>

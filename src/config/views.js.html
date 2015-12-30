@@ -80,6 +80,8 @@ the location of this 'asset' is set.</p>
   <div class="body">
   </div>
 </div>
+
+<p>Hoek is similar to underscore </p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">var</span> <span class="nx">Hoek</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;hoek&#39;</span><span class="p">),</span>
@@ -178,9 +180,33 @@ be served from the ../assests dir</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
   <span class="nx">server</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;inert&#39;</span><span class="p">),</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+</div>
+<p>Confirm no err</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">Hoek</span><span class="p">.</span><span class="nx">assert</span><span class="p">(</span><span class="o">!</span><span class="nx">err</span><span class="p">,</span><span class="nx">err</span><span class="p">);</span>
 
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
+</div>
+<p>Load files located in ../assets</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">server</span><span class="p">.</span><span class="nx">route</span><span class="p">({</span>
       <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
       <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/assets/{param*}&#39;</span><span class="p">,</span>

@@ -53,6 +53,10 @@
     <span class="nx">password</span><span class="o">:</span> <span class="s2">&quot;somepassword&quot;</span><span class="p">,</span>
     <span class="nx">accountName</span><span class="o">:</span> <span class="s2">&quot;Snowflake&quot;</span><span class="p">,</span>
     <span class="nx">verifyEmailUrl</span><span class="o">:</span> <span class="s2">&quot;verifyEmail&quot;</span>
+  <span class="p">},</span>
+  <span class="nx">validation</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">username</span><span class="o">:</span> <span class="sr">/^[a-zA-Z0-9]{6,12}$/</span><span class="p">,</span>
+    <span class="nx">password</span><span class="o">:</span> <span class="sr">/^(?=.*[0-9])(?=.*[!@#$%^&amp;*])[a-zA-Z0-9!@#$%^&amp;*]{6,12}$/</span>
   <span class="p">}</span>
 <span class="p">};</span>
 </pre></div>

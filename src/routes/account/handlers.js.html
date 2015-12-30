@@ -236,10 +236,7 @@
         <td class="code highlight"><div class="highlight"><pre>
   <span class="nx">user</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">reply</span><span class="p">({</span>
-  <span class="nx">statusCode</span><span class="o">:</span> <span class="mi">503</span><span class="p">,</span>
-  <span class="nx">message</span><span class="o">:</span> <span class="s2">&quot;User couldn&#39;t be saved.&quot;</span>
-      <span class="p">});</span>
+      <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">conflict</span><span class="p">(</span><span class="s2">&quot;User couldn&#39;t be saved.&quot;</span><span class="p">));</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">tokenData</span> <span class="o">=</span> <span class="p">{</span>
         <span class="nx">username</span><span class="o">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
@@ -307,13 +304,14 @@ message with a token for subsequent usage</p>
   <span class="nx">User</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">username</span> <span class="p">},</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
     
     <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">reply</span><span class="p">({</span> <span class="nx">success</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;Authentication failed. User not found.&#39;</span> <span class="p">});</span>
+      <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">unauthorized</span><span class="p">(</span><span class="s1">&#39;Authentication failed&#39;</span><span class="p">));</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
       <span class="nx">credentials</span> <span class="o">=</span> <span class="nx">user</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">Crypto</span><span class="p">.</span><span class="nx">decrypt</span><span class="p">(</span><span class="nx">credentials</span><span class="p">.</span><span class="nx">password</span><span class="p">)</span> <span class="o">!=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">reply</span><span class="p">({</span> <span class="nx">success</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;Passwords does not match.&#39;</span> <span class="p">});</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">Crypto</span><span class="p">.</span><span class="nx">decrypt</span><span class="p">(</span><span class="nx">credentials</span><span class="p">.</span><span class="nx">password</span><span class="p">)</span> <span class="o">!=</span>
+          <span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">unauthorized</span><span class="p">(</span><span class="s1">&#39;Authentication failed&#39;</span><span class="p">));</span>        
       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-  <span class="nx">reply</span><span class="p">({</span> <span class="nx">success</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;Authenticated.&#39;</span><span class="p">,</span> <span class="nx">token</span><span class="o">:</span> <span class="nx">JwtAuth</span><span class="p">.</span><span class="nx">createToken</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="nx">credentials</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="nx">credentials</span><span class="p">.</span><span class="nx">email</span> <span class="p">})</span> <span class="p">});</span>
+  <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="s1">&#39;Authenticated&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">token</span><span class="o">:</span> <span class="nx">JwtAuth</span><span class="p">.</span><span class="nx">createToken</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="nx">credentials</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="nx">credentials</span><span class="p">.</span><span class="nx">email</span> <span class="p">})}));</span>
       <span class="p">}</span>
     <span class="p">}</span>
   <span class="p">});</span>
@@ -342,7 +340,7 @@ see: <a href='https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-key
 <span class="nx">internals</span><span class="p">.</span><span class="nx">logoutUser</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">authorization</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
   <span class="nx">redisClient</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">headers</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">());</span>
-  <span class="nx">reply</span><span class="p">({</span><span class="nx">success</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;Logged out&#39;</span><span class="p">});</span>
+  <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="s1">&#39;Logged out&#39;</span><span class="p">));</span>
 <span class="p">};</span>
 
 </pre></div>
@@ -439,7 +437,7 @@ from the token.</p>
         <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
           <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">badImplementation</span><span class="p">(</span><span class="nx">err</span><span class="p">));</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="s2">&quot;account sucessfully verified&quot;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="s2">&quot;account sucessfully verified&quot;</span><span class="p">));</span>
 
       <span class="p">});</span>
     <span class="p">})</span>

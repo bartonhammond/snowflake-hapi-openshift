@@ -75,8 +75,44 @@ plucking off the message depending on the shape of the error object.</p>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">var</span>  <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../config&#39;</span><span class="p">),</span>
     <span class="nx">internals</span> <span class="o">=</span> <span class="p">{},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>the authentication package</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">Jwt</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jsonwebtoken&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>redis for blacklisting tokens</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">redisClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../database/redis&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<p>mongoose user object</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">User</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../database/models/User.js&#39;</span><span class="p">);</span>
 
 
@@ -86,7 +122,7 @@ plucking off the message depending on the shape of the error object.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
 </div>
 <p>private key for signing</p>
         </td>
@@ -132,7 +168,7 @@ and checked here to prevent re-use</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
 </div>
 <p>credentials have 'Bearer dfadfsdf'</p>
         </td>
@@ -146,7 +182,7 @@ and checked here to prevent re-use</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
 </div>
 <p>does redis have the token</p>
         </td>
@@ -164,7 +200,7 @@ and checked here to prevent re-use</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
 </div>
 <p>oops - it's been blacklisted - sorry</p>
         </td>
@@ -179,7 +215,7 @@ and checked here to prevent re-use</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
+  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
 </div>
 <p>ok - valid token, do we have a user?</p>
         </td>
@@ -208,13 +244,13 @@ and checked here to prevent re-use</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
+  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
 </div>
 <p>create token</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">createToken</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">Jwt</span><span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">internals</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">,</span> <span class="p">{</span><span class="nx">jwtid</span><span class="o">:</span> <span class="s1">&#39;jwtid&#39;</span><span class="p">});</span>
+  <span class="k">return</span> <span class="nx">Jwt</span><span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">internals</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">);</span>
 <span class="p">};</span>
 
 
@@ -224,7 +260,7 @@ and checked here to prevent re-use</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
+  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
 </div>
 <p>set jwt auth strategy</p>
         </td>

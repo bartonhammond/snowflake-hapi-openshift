@@ -71,10 +71,37 @@ plucking off the message depending on the shape of the error object.</p>
   <div class="body">
   </div>
 </div>
+
+<p>Handle the endpoints</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
-<span class="kd">var</span> <span class="nx">Joi</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;joi&#39;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">AccountHandlers</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./handlers&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">AccountHandlers</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./handlers&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>The static configurations</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">CONFIG</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../config&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>Joi is Hapi's validation library</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">Joi</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;joi&#39;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span>
 
@@ -95,6 +122,8 @@ plucking off the message depending on the shape of the error object.</p>
   <div class="body"><p>Note the account/logout requires authentication</p>
 
 <p>Note the validation of the account/register parameters</p>
+
+<p>Note account/register has same Regex expression as Snowflake client</p>
   </div>
 </div>
         </td>
@@ -107,8 +136,8 @@ plucking off the message depending on the shape of the error object.</p>
     <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
       <span class="nx">validate</span><span class="o">:</span> <span class="p">{</span>
   <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">username</span><span class="o">:</span> <span class="nx">Joi</span><span class="p">.</span><span class="nx">string</span><span class="p">().</span><span class="nx">alphanum</span><span class="p">().</span><span class="nx">min</span><span class="p">(</span><span class="mi">6</span><span class="p">).</span><span class="nx">max</span><span class="p">(</span><span class="mi">12</span><span class="p">).</span><span class="nx">required</span><span class="p">(),</span>
-    <span class="nx">password</span><span class="o">:</span> <span class="nx">Joi</span><span class="p">.</span><span class="nx">string</span><span class="p">().</span><span class="nx">regex</span><span class="p">(</span><span class="sr">/[a-zA-Z0-9]{3,30}/</span><span class="p">).</span><span class="nx">required</span><span class="p">(),</span>
+    <span class="nx">username</span><span class="o">:</span> <span class="nx">Joi</span><span class="p">.</span><span class="nx">string</span><span class="p">().</span><span class="nx">regex</span><span class="p">(</span><span class="nx">CONFIG</span><span class="p">.</span><span class="nx">validation</span><span class="p">.</span><span class="nx">username</span><span class="p">).</span><span class="nx">required</span><span class="p">(),</span>
+    <span class="nx">password</span><span class="o">:</span> <span class="nx">Joi</span><span class="p">.</span><span class="nx">string</span><span class="p">().</span><span class="nx">regex</span><span class="p">(</span><span class="nx">CONFIG</span><span class="p">.</span><span class="nx">validation</span><span class="p">.</span><span class="nx">password</span><span class="p">).</span><span class="nx">required</span><span class="p">(),</span>
     <span class="nx">email</span><span class="o">:</span> <span class="nx">Joi</span><span class="p">.</span><span class="nx">string</span><span class="p">().</span><span class="nx">email</span><span class="p">().</span><span class="nx">required</span><span class="p">()</span>
   <span class="p">}</span>
       <span class="p">}</span>

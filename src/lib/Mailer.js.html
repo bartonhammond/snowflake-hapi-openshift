@@ -81,8 +81,33 @@
 </div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
-<span class="kd">var</span> <span class="nx">nodemailer</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;nodemailer&quot;</span><span class="p">),</span>
-    <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../config&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../config&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>kind of like underscore, but specific to Hapi</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">Hoek</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;hoek&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>the email library</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">nodemailer</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;nodemailer&quot;</span><span class="p">);</span>
 
 
 </pre></div>
@@ -232,6 +257,25 @@
   </div>
   <div class="body"><p>The main function, sends the email </p>
   </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">from</span>
+      <span>who email is from</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">email</span>
+      <span>who email is sent to</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">subject</span>
+      <span>the subject of the email</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">mailbody</span>
+      <span>the body of the email </span>
+    </div>
+  </div>
 </div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
@@ -243,10 +287,19 @@
     <span class="nx">html</span><span class="o">:</span> <span class="nx">mailbody</span>  <span class="c1">// html body</span>
   <span class="p">};</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
+</div>
+<p>Send email</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
   <span class="nx">transporter</span><span class="p">.</span><span class="nx">sendMail</span><span class="p">(</span><span class="nx">mailOptions</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
-    <span class="p">}</span>
+    <span class="nx">Hoek</span><span class="p">.</span><span class="nx">assert</span><span class="p">(</span><span class="o">!</span><span class="nx">error</span><span class="p">,</span><span class="nx">error</span><span class="p">);</span>
   <span class="p">});</span>
 <span class="p">}</span>
 </pre></div>

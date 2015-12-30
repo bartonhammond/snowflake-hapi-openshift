@@ -18,6 +18,21 @@
     </div>
     <div id="tree"></div>
     <div id="headings">
+      <div class="heading h1">
+        <a href="#user.js">User.js</a>
+      </div>
+      <div class="heading h2">
+        <a href="#imports">Imports</a>
+      </div>
+      <div class="heading h2">
+        <a href="#finduserbyidandusername">findUserByIdAndUserName</a>
+      </div>
+      <div class="heading h2">
+        <a href="#finduserbyemail">findUserByEmail</a>
+      </div>
+      <div class="heading h2">
+        <a href="#mongoose%20model%20for%20user">Mongoose model for User</a>
+      </div>
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -25,21 +40,70 @@
 <table cellpadding="0" cellspacing="0">
   <tbody>
       <tr>
-        <td class="docs">
-          <h1>User.js</h1>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="user.js">
+  <h1>
+    <a href="#user.js" name="user.js" class="pilcrow">&#182;</a>
+    User.js
+  </h1>
+</div>
+
+  </div>
+  <div class="body"><p>The user document for Mongoose</p>
+  </div>
+</div>
         </td>
-        <td class="code highlight"></td>
+        <td class="code highlight"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="imports">
+  <h2>
+    <a href="#imports" name="imports" class="pilcrow">&#182;</a>
+    Imports
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+
+<p>Mongoose - the ORM</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="kd">var</span> <span class="nx">Mongoose</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;mongoose&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
       </tr>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
 </div>
-
+<p>The document structure definition</p>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">Mongoose</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;mongoose&#39;</span><span class="p">),</span>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">Schema</span> <span class="o">=</span> <span class="nx">Mongoose</span><span class="p">.</span><span class="nx">Schema</span><span class="p">;</span>
 
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>Same fields as Parse.com </p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">var</span> <span class="nx">UserSchema</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Schema</span><span class="p">({</span>
   <span class="nx">username</span><span class="o">:</span> <span class="nb">String</span><span class="p">,</span>
   <span class="nx">email</span><span class="o">:</span> <span class="nb">String</span><span class="p">,</span>
@@ -47,6 +111,47 @@
   <span class="nx">emailVerified</span><span class="o">:</span> <span class="nb">Boolean</span>  
 <span class="p">});</span>
 
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="finduserbyidandusername">
+  <h2>
+    <a href="#finduserbyidandusername" name="finduserbyidandusername" class="pilcrow">&#182;</a>
+    findUserByIdAndUserName
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">id</span>
+      <span><ul>
+<li>user _id from Mongodb</li>
+</ul></span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">username</span>
+      <span><ul>
+<li>username field from Mongodb</li>
+</ul></span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">callback</span>
+      <span><ul>
+<li>resolve the action</li>
+</ul></span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">UserSchema</span><span class="p">.</span><span class="nx">statics</span><span class="p">.</span><span class="nx">findUserByIdAndUserName</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="nx">username</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span>
     <span class="nx">username</span><span class="o">:</span> <span class="nx">username</span><span class="p">,</span>
@@ -54,6 +159,40 @@
   <span class="p">},</span> <span class="nx">callback</span><span class="p">);</span>
 <span class="p">};</span>
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="finduserbyemail">
+  <h2>
+    <a href="#finduserbyemail" name="finduserbyemail" class="pilcrow">&#182;</a>
+    findUserByEmail
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">email</span>
+      <span><ul>
+<li>the user document email field from Mongodb</li>
+</ul></span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">callback</span>
+      <span><ul>
+<li>resolve the action</li>
+</ul></span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">UserSchema</span><span class="p">.</span><span class="nx">statics</span><span class="p">.</span><span class="nx">findUserByEmail</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">email</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span>
     <span class="nx">email</span><span class="o">:</span> <span class="nx">email</span>
@@ -61,6 +200,34 @@
 <span class="p">};</span>
 
 
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="mongoose%20model%20for%20user">
+  <h2>
+    <a href="#mongoose%20model%20for%20user" name="mongoose%20model%20for%20user" class="pilcrow">&#182;</a>
+    Mongoose model for User
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">UserSchema</span>
+      <span><ul>
+<li>the document structure definition</li>
+</ul></span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">Mongoose</span><span class="p">.</span><span class="nx">model</span><span class="p">(</span><span class="s1">&#39;User&#39;</span><span class="p">,</span> <span class="nx">UserSchema</span><span class="p">);</span>
 
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">user</span><span class="p">;</span>

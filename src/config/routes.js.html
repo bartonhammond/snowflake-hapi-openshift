@@ -67,10 +67,36 @@ and the handler</p>
   <div class="body">
   </div>
 </div>
+
+<p>Accounts</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="kd">var</span> <span class="nx">AccountRoutes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../routes/account/endpoints&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>General like env &amp; status</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">GeneralRoutes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../routes/general/endpoints&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>Restricted route to prove authentication &amp; authorization</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">RestrictedRoutes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../routes/restricted/endpoints&#39;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span>
@@ -82,7 +108,7 @@ and the handler</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
 </div>
 <p>Concatentate the routes into one array</p>
         </td>
@@ -98,7 +124,7 @@ and the handler</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
 </div>
 <p>set the routes for the server</p>
         </td>
