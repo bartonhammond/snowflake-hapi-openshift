@@ -162,6 +162,7 @@ and checked here to prevent re-use</p>
   
   <span class="kd">var</span> <span class="nx">credentials</span> <span class="o">=</span> <span class="p">{};</span>
 
+
 </pre></div>
         </td>
       </tr>
@@ -174,6 +175,7 @@ and checked here to prevent re-use</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
   <span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">authorization</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
+
   <span class="k">if</span> <span class="p">(</span><span class="nx">headers</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
 
 </pre></div>
@@ -189,7 +191,6 @@ and checked here to prevent re-use</p>
         <td class="code highlight"><div class="highlight"><pre>
     <span class="nx">redisClient</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">headers</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
         <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">);</span>           
       <span class="p">}</span>
       
@@ -217,10 +218,12 @@ and checked here to prevent re-use</p>
 <div class="pilwrap">
   <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
 </div>
-<p>ok - valid token, do we have a user?</p>
+<p>ok - valid token, do we have a user?
+note we're only using 'id' - that's because
+the user can change their email and username</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
-      <span class="nx">User</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="nx">decodedToken</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="nx">decodedToken</span><span class="p">.</span><span class="nx">email</span> <span class="p">},</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">User</span><span class="p">.</span><span class="nx">findById</span><span class="p">(</span><span class="nx">decodedToken</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
           <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">);</span>   

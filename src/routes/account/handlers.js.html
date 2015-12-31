@@ -45,6 +45,12 @@
       <div class="heading h2">
         <a href="#imports">Imports</a>
       </div>
+      <div class="heading h2">
+        <a href="#getmyprofile">getMyProfile</a>
+      </div>
+      <div class="heading h2">
+        <a href="#getmyprofile">getMyProfile</a>
+      </div>
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -102,7 +108,7 @@
 <p>our configuration</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
-    <span class="nx">Config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../config&#39;</span><span class="p">),</span>
+    <span class="nx">CONFIG</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../config&#39;</span><span class="p">),</span>
 
 </pre></div>
         </td>
@@ -190,6 +196,19 @@
 <div class="pilwrap">
   <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
 </div>
+<p>helper library</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">),</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
+</div>
 <p>our user in mongodb</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
@@ -229,7 +248,7 @@
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
+  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
 </div>
 <p>save the user w/ the encrypted password</p>
         </td>
@@ -249,14 +268,15 @@
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
 </div>
 <p>send an email verification with a JWT token</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
       <span class="nx">Mailer</span><span class="p">.</span><span class="nx">sendMailVerificationLink</span><span class="p">(</span><span class="nx">user</span><span class="p">,</span>
                                       <span class="nx">JasonWebToken</span><span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="nx">tokenData</span><span class="p">,</span>
-                                                         <span class="nx">Config</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">));</span>
+                                                         <span class="nx">CONFIG</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">));</span>
+
 
 </pre></div>
         </td>
@@ -264,15 +284,32 @@
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
+  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
 </div>
-<p>Let the user know they are registered</p>
+<div class="dox">
+  <div class="summary"><p>user: 
+register { _id: 56844c798d4dce65e2b45b6e,
+emailVerified: false,
+password: 'd5be02df44dafbbcfb',
+email: '<a href='mailto:<a href='mailto:barton@acclivyx.com'>barton@acclivyx.com</a>'><a href='mailto:barton@acclivyx.com'>barton@acclivyx.com</a></a>',
+username: 'barton',
+__v: 0 }</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+
+<p>Let the user know they are registered
+Note that the token is created only with the user._id since
+the user can change their username &amp; email
+If the token embeds either of those fields, it becomes
+an invalid token once the user changes those fields</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
       <span class="nx">reply</span><span class="p">({</span>
   <span class="nx">statusCode</span><span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
-  <span class="nx">message</span><span class="o">:</span> <span class="s2">&quot;User registered.&quot;</span><span class="p">,</span>
-  <span class="nx">token</span><span class="o">:</span> <span class="nx">JwtAuth</span><span class="p">.</span><span class="nx">createToken</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">email</span> <span class="p">})</span>
+        <span class="nx">objectId</span><span class="o">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">_id</span><span class="p">,</span>
+  <span class="nx">sessionToken</span><span class="o">:</span> <span class="nx">JwtAuth</span><span class="p">.</span><span class="nx">createToken</span><span class="p">({</span> <span class="nx">id</span><span class="o">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">_id</span><span class="p">})</span>
       <span class="p">});</span>
     <span class="p">}</span>
   <span class="p">});</span>
@@ -292,28 +329,37 @@
 </div>
 
   </div>
-  <div class="body"><p>Find the user by username, verify the password matches and return a
-message with a token for subsequent usage</p>
+  <div class="body"><p>Find the user by username, verify the password matches and return 
+the user </p>
   </div>
 </div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">loginUser</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="kd">var</span> <span class="nx">credentials</span> <span class="o">=</span> <span class="p">{};</span>
   <span class="nx">User</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">username</span> <span class="p">},</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
     
     <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
       <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">unauthorized</span><span class="p">(</span><span class="s1">&#39;Authentication failed&#39;</span><span class="p">));</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="nx">credentials</span> <span class="o">=</span> <span class="nx">user</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">Crypto</span><span class="p">.</span><span class="nx">decrypt</span><span class="p">(</span><span class="nx">credentials</span><span class="p">.</span><span class="nx">password</span><span class="p">)</span> <span class="o">!=</span>
-          <span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">unauthorized</span><span class="p">(</span><span class="s1">&#39;Authentication failed&#39;</span><span class="p">));</span>        
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-  <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="s1">&#39;Authenticated&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">token</span><span class="o">:</span> <span class="nx">JwtAuth</span><span class="p">.</span><span class="nx">createToken</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="nx">credentials</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="nx">credentials</span><span class="p">.</span><span class="nx">email</span> <span class="p">})}));</span>
-      <span class="p">}</span>
     <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isNull</span><span class="p">(</span><span class="nx">user</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">unauthorized</span><span class="p">(</span><span class="s1">&#39;Authentication failed&#39;</span><span class="p">));</span>      
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">Crypto</span><span class="p">.</span><span class="nx">decrypt</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">password</span><span class="p">)</span> <span class="o">!=</span>
+        <span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">unauthorized</span><span class="p">(</span><span class="s1">&#39;Authentication failed&#39;</span><span class="p">));</span>        
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">reply</span><span class="p">({</span>
+        <span class="nx">email</span><span class="o">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+        <span class="nx">objectId</span><span class="o">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">_id</span><span class="p">,</span>
+        <span class="nx">username</span><span class="o">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
+        <span class="nx">sessionToken</span><span class="o">:</span> <span class="nx">JwtAuth</span><span class="p">.</span><span class="nx">createToken</span><span class="p">({</span>
+          <span class="nx">id</span><span class="o">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">_id</span>
+        <span class="p">})</span>
+      <span class="p">});</span><span class="c1">//reply</span>
+    <span class="p">}</span>
+
   <span class="p">});</span>
 <span class="p">};</span>
 
@@ -340,7 +386,7 @@ see: <a href='https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-key
 <span class="nx">internals</span><span class="p">.</span><span class="nx">logoutUser</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">authorization</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
   <span class="nx">redisClient</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">headers</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">());</span>
-  <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="s1">&#39;Logged out&#39;</span><span class="p">));</span>
+  <span class="nx">reply</span><span class="p">({});</span>
 <span class="p">};</span>
 
 </pre></div>
@@ -366,7 +412,7 @@ from the token.</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">verifyEmail</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">JasonWebToken</span><span class="p">.</span><span class="nx">verify</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">token</span><span class="p">,</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">decoded</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">JasonWebToken</span><span class="p">.</span><span class="nx">verify</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">token</span><span class="p">,</span> <span class="nx">CONFIG</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">decoded</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span><span class="p">(</span><span class="nx">decoded</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">forbidden</span><span class="p">(</span><span class="s2">&quot;invalid verification link&quot;</span><span class="p">));</span>
     <span class="p">}</span>
@@ -379,7 +425,7 @@ from the token.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
+  <a class="pilcrow" href="#section-19" id="section-19">&#182;</a>
 </div>
 <p>oops, something wrong</p>
         </td>
@@ -395,7 +441,7 @@ from the token.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-19" id="section-19">&#182;</a>
+  <a class="pilcrow" href="#section-20" id="section-20">&#182;</a>
 </div>
 <p>No user found for this link</p>
         </td>
@@ -411,7 +457,7 @@ from the token.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-20" id="section-20">&#182;</a>
+  <a class="pilcrow" href="#section-21" id="section-21">&#182;</a>
 </div>
 <p>not sure if this is really an error...</p>
         </td>
@@ -427,7 +473,7 @@ from the token.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-21" id="section-21">&#182;</a>
+  <a class="pilcrow" href="#section-22" id="section-22">&#182;</a>
 </div>
 <p>Everything is fine, update the users flag for emailVerified</p>
         </td>
@@ -437,8 +483,7 @@ from the token.</p>
         <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
           <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">badImplementation</span><span class="p">(</span><span class="nx">err</span><span class="p">));</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="s2">&quot;account sucessfully verified&quot;</span><span class="p">));</span>
-
+        <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="s2">&quot;account sucessfully verified&quot;</span><span class="p">);</span>
       <span class="p">});</span>
     <span class="p">})</span>
     
@@ -478,7 +523,7 @@ from the token.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-23" id="section-23">&#182;</a>
+  <a class="pilcrow" href="#section-24" id="section-24">&#182;</a>
 </div>
 <p>Provide no indication if user exists</p>
         </td>
@@ -491,12 +536,9 @@ from the token.</p>
       
       <span class="nx">Mailer</span><span class="p">.</span><span class="nx">sendMailResetPassword</span><span class="p">(</span><span class="nx">user</span><span class="p">,</span>
                                    <span class="nx">JasonWebToken</span><span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="nx">tokenData</span><span class="p">,</span>
-                                                      <span class="nx">Config</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">));</span>
+                                                      <span class="nx">CONFIG</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">));</span>
       
-      <span class="nx">reply</span><span class="p">({</span>
-  <span class="nx">statusCode</span><span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
-  <span class="nx">message</span><span class="o">:</span> <span class="s2">&quot;email delivered.&quot;</span>
-      <span class="p">});</span>
+      <span class="nx">reply</span><span class="p">({});</span>
     <span class="p">}</span>
   <span class="p">});</span>
 <span class="p">};</span>
@@ -562,7 +604,7 @@ from the token.</p>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="nx">internals</span><span class="p">.</span><span class="nx">resetPassword</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
   
-  <span class="nx">JasonWebToken</span><span class="p">.</span><span class="nx">verify</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">token</span><span class="p">,</span> <span class="nx">Config</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">decoded</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">JasonWebToken</span><span class="p">.</span><span class="nx">verify</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">token</span><span class="p">,</span> <span class="nx">CONFIG</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">decoded</span><span class="p">)</span> <span class="p">{</span>
     
     <span class="k">if</span><span class="p">(</span><span class="nx">decoded</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">forbidden</span><span class="p">(</span><span class="s2">&quot;invalid resetPassword link&quot;</span><span class="p">));</span>
@@ -575,7 +617,7 @@ from the token.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-26" id="section-26">&#182;</a>
+  <a class="pilcrow" href="#section-27" id="section-27">&#182;</a>
 </div>
 <p>Must fit w/in time allocated</p>
         </td>
@@ -605,6 +647,143 @@ from the token.</p>
     <span class="p">})</span>
   <span class="p">});</span>
 
+<span class="p">};</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="getmyprofile">
+  <h2>
+    <a href="#getmyprofile" name="getmyprofile" class="pilcrow">&#182;</a>
+    getMyProfile
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>We only get here through authentication</p>
+
+<p>note: the user is available from the credentials!</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">internals</span><span class="p">.</span><span class="nx">getMyProfile</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">reply</span><span class="p">({</span>
+    <span class="nx">objectId</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">auth</span><span class="p">.</span><span class="nx">credentials</span><span class="p">.</span><span class="nx">_id</span><span class="p">,</span>
+    <span class="nx">username</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">auth</span><span class="p">.</span><span class="nx">credentials</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
+    <span class="nx">email</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">auth</span><span class="p">.</span><span class="nx">credentials</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+    <span class="nx">emailVerified</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">auth</span><span class="p">.</span><span class="nx">credentials</span><span class="p">.</span><span class="nx">emailVerified</span><span class="p">,</span>
+    <span class="nx">sessionToken</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">authorization</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="getmyprofile">
+  <h2>
+    <a href="#getmyprofile" name="getmyprofile" class="pilcrow">&#182;</a>
+    getMyProfile
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>We only get here through authentication</p>
+
+<p>note: the user is available from the credentials!</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">internals</span><span class="p">.</span><span class="nx">updateProfile</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">User</span><span class="p">.</span><span class="nx">findById</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">_id</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">badImplementation</span><span class="p">(</span><span class="nx">err</span><span class="p">));</span>
+    <span class="p">}</span>
+    
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-30" id="section-30">&#182;</a>
+</div>
+<p>Provide no indication if user exists</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">user</span><span class="p">.</span><span class="nx">username</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">username</span><span class="p">;</span>
+      
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-31" id="section-31">&#182;</a>
+</div>
+<p>If user changed email, it needs to be verified</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">email</span> <span class="o">!==</span> <span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">email</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">user</span><span class="p">.</span><span class="nx">emailVerified</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="nx">user</span><span class="p">.</span><span class="nx">email</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">email</span><span class="p">;</span>
+
+      
+      <span class="nx">user</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">updatedUser</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">Boom</span><span class="p">.</span><span class="nx">conflict</span><span class="p">(</span><span class="s2">&quot;User couldn&#39;t be saved.&quot;</span><span class="p">));</span>
+        <span class="p">}</span>
+        
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-32" id="section-32">&#182;</a>
+</div>
+<p>Send verification email if needed</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">updatedUser</span><span class="p">.</span><span class="nx">emailVerified</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">tokenData</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nx">username</span><span class="o">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
+            <span class="nx">id</span><span class="o">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">_id</span>
+          <span class="p">};</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-33" id="section-33">&#182;</a>
+</div>
+<p>send an email verification with a JWT token</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+          <span class="nx">Mailer</span><span class="p">.</span><span class="nx">sendMailVerificationLink</span><span class="p">(</span><span class="nx">user</span><span class="p">,</span>
+                                          <span class="nx">JasonWebToken</span><span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="nx">tokenData</span><span class="p">,</span>
+                                                             <span class="nx">CONFIG</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">));</span>
+        <span class="p">}</span>
+        <span class="nx">reply</span><span class="p">({});</span>
+      <span class="p">});</span>
+
+    <span class="p">}</span>
+  <span class="p">});</span>  
 <span class="p">};</span>
 
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">internals</span><span class="p">;</span>
