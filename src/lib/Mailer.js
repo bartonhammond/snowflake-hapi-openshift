@@ -10,8 +10,11 @@
  * ## Imports
  *
  */
-var nodemailer = require("nodemailer"),
-    Config = require('../config');
+var Config = require('../config'),
+    // kind of like underscore, but specific to Hapi
+    Hoek = require('hoek'),
+    // the email library
+    nodemailer = require("nodemailer");
 
 /**
  * ## transporter
@@ -85,6 +88,11 @@ exports.sendMailResetPassword = function(user, token) {
  * ## mail
  *
  * The main function, sends the email 
+ *
+ * @param from who email is from
+ * @param email who email is sent to
+ * @param subject the subject of the email
+ * @param mailbody the body of the email 
  */
 function mail(from, email, subject, mailbody){
   var mailOptions = {
@@ -93,10 +101,8 @@ function mail(from, email, subject, mailbody){
     subject: subject, // Subject line
     html: mailbody  // html body
   };
-
+  //Send email
   transporter.sendMail(mailOptions, function(error) {
-    if (error) {
-      console.error(error);
-    }
+    Hoek.assert(!error,error);
   });
 }

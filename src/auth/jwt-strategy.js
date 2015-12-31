@@ -14,8 +14,11 @@
 */
 var  Config = require('../config'),
     internals = {},
+    //the authentication package
     Jwt = require('jsonwebtoken'),
+    //redis for blacklisting tokens
     redisClient = require('../database/redis'),
+    //mongoose user object
     User = require('../database/models/User.js');
 
 // private key for signing
@@ -38,13 +41,14 @@ internals.privateKey = Config.crypto.privateKey;
 internals.validate = function (request, decodedToken, callback) {
   
   var credentials = {};
+
   //credentials have 'Bearer dfadfsdf'
   var headers = request.headers.authorization.split(' ');
+
   if (headers.length === 2) {
     //does redis have the token
     redisClient.get(headers[1], function (err, reply) {
       if (err) {
-        console.log(err);
         return callback(err, false, credentials);		        
       }
       
@@ -53,7 +57,9 @@ internals.validate = function (request, decodedToken, callback) {
         return callback({message: 'invalid auth token'}, false, credentials);		        
       }
       // ok - valid token, do we have a user?
-      User.findOne({ username: decodedToken.username, email: decodedToken.email }, function (err, user) {
+      // note we're only using 'id' - that's because
+      // the user can change their email and username
+      User.findById(decodedToken.id, function (err, user) {
 
         if (err) {
           return callback(err, false, credentials);		
@@ -72,7 +78,7 @@ internals.validate = function (request, decodedToken, callback) {
 
 // create token
 internals.createToken = function (obj) {
-  return Jwt.sign(obj, internals.privateKey, {jwtid: 'jwtid'});
+  return Jwt.sign(obj, internals.privateKey);
 };
 
 // set jwt auth strategy

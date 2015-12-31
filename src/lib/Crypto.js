@@ -12,17 +12,26 @@
  * ## Imports
  *
  */
+// our configurations
 var Config = require('../config'),
+    //the crypto library
     crypto = require('crypto'),
-    algorithm = 'aes-256-ctr';
+    //algorithm for encryption
+    algorithm = 'aes-256-ctr',
+    privateKey = Config.crypto.privateKey;
 
-var privateKey = Config.crypto.privateKey;
 
-
+/**
+ * ### public decrypt
+ *
+ */
 exports.decrypt = function(password) {
   return decrypt(password);
 };
-
+/**
+ * ### public encrypt
+ *
+ */
 exports.encrypt = function(password) {
   return encrypt(password);
 };

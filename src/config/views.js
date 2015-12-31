@@ -15,7 +15,8 @@
 /**
 * ## Imports
 *
-*/
+ */
+// Hoek is similar to underscore 
 var Hoek = require('hoek'),
     Path = require('path'),
     internals = {};
@@ -56,9 +57,11 @@ internals.init = function (server) {
    *
    */
   server.register(require('inert'), (err) => {
-    
+
+    //Confirm no err
     Hoek.assert(!err,err);
 
+    //Load files located in ../assets
     server.route({
       method: 'GET',
       path: '/assets/{param*}',

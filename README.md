@@ -1,8 +1,6 @@
 Snowflake ![snowflake](https://cloud.githubusercontent.com/assets/1282364/11599365/1a1c39d2-9a8c-11e5-8819-bc1e48b30525.png)
 ==================================
-#### This is a nodejs server for the
-[React-Native app Snowflake](https://github.com/bartonhammond/snowflake).
-This server runs locally and on OpenShift.  It uses Hapi, MongoDb, Redis, and Jason Web Token.
+#### This is a nodejs server for the [React-Native app Snowflake](https://github.com/bartonhammond/snowflake).  This server runs locally and on OpenShift scaling for web traffic.  It uses Hapi, MongoDb, Redis, and Jason Web Token.
 
 [![Join the chat at https://gitter.im/bartonhammond/snowflake](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bartonhammond/snowflake?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ![ios](https://img.shields.io/badge/IOS--blue.svg) [![Build Status](https://www.bitrise.io/app/348ae0a97c5e147a.svg?token=RmDwzjeIGuo7i9MeazE1fg)](https://www.bitrise.io/app/348ae0a97c5e147a)

@@ -1,3 +1,5 @@
 .tern-project
 node_modules
 .tern-port
+config.js
+        

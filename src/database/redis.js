@@ -23,11 +23,18 @@ var connection_string = Config.redis;
  *
  */
 if(process.env.OPENSHIFT_REDIS_HOST){
+  //The redis env variables on openshift
   connection_string.host = process.env.OPENSHIFT_REDIS_HOST;
   connection_string.port = process.env.OPENSHIFT_REDIS_PORT;
+
+  //connect to Redis
   redisClient = Redis.createClient(connection_string);
+
+  //have to authenticate
   redisClient.auth( process.env.REDIS_PASSWORD);
 } else {
+  
+  //running locally - make sure you've started redis server
   redisClient = Redis.createClient(connection_string);    
 }
 

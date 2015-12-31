@@ -14,5 +14,9 @@ module.exports = {
     password: "somepassword",
     accountName: "Snowflake",
     verifyEmailUrl: "verifyEmail"
+  },
+  validation: {
+    username: /^[a-zA-Z0-9]{6,12}$/,
+    password: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,12}$/
   }
 };

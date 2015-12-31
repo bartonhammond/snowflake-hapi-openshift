@@ -13,7 +13,7 @@
 //Boom is an abstraction over http error codes
 var Boom = require('boom'),
     // our configuration
-    Config = require('../../config'),
+    CONFIG = require('../../config'),
     // our encrpyt and decrypt
     Crypto = require('../../lib/Crypto'),
     // support for token signing and verification
@@ -26,6 +26,8 @@ var Boom = require('boom'),
     Moment = require('moment'),
     // the client for redis
     redisClient = require('../../database/redis'),
+    // helper library
+    _ = require('underscore'),
     // our user in mongodb
     User = require('../../database/models/User');
 
@@ -44,10 +46,7 @@ internals.registerUser = function (req, reply) {
   //save the user w/ the encrypted password
   user.save(function (err, user) {
     if (err) {
-      reply({
-	statusCode: 503,
-	message: "User couldn't be saved."
-      });
+      reply(Boom.conflict("User couldn't be saved."));
     } else {
       var tokenData = {
         username: user.username,
@@ -56,12 +55,25 @@ internals.registerUser = function (req, reply) {
       // send an email verification with a JWT token
       Mailer.sendMailVerificationLink(user,
                                       JasonWebToken.sign(tokenData,
-                                                         Config.crypto.privateKey));
+                                                         CONFIG.crypto.privateKey));
+
+      /** user: 
+       register { _id: 56844c798d4dce65e2b45b6e,
+       emailVerified: false,
+       password: 'd5be02df44dafbbcfb',
+       email: 'barton@acclivyx.com',
+       username: 'barton',
+       __v: 0 }
+       */
       //Let the user know they are registered
+      //Note that the token is created only with the user._id since
+      //the user can change their username & email
+      //If the token embeds either of those fields, it becomes
+      //an invalid token once the user changes those fields
       reply({
 	statusCode: 201,
-	message: "User registered.",
-	token: JwtAuth.createToken({ username: user.username, email: user.email })
+        objectId: user._id,
+	sessionToken: JwtAuth.createToken({ id: user._id})
       });
     }
   });
@@ -69,25 +81,35 @@ internals.registerUser = function (req, reply) {
 /**
  * ## loginUser
  *
- * Find the user by username, verify the password matches and return a
- * message with a token for subsequent usage
+ * Find the user by username, verify the password matches and return 
+ * the user 
  *
  */
 internals.loginUser = function (req, reply) {
-
-  var credentials = {};
   User.findOne({ username: req.payload.username }, function (err, user) {
     
     if (err) {
-      reply({ success: false, message: 'Authentication failed. User not found.' });
-    } else {
-      credentials = user;
-      if (Crypto.decrypt(credentials.password) != req.payload.password) {
-	reply({ success: false, message: 'Passwords does not match.' });
-      } else {
-	reply({ success: true, message: 'Authenticated.', token: JwtAuth.createToken({ username: credentials.username, email: credentials.email }) });
-      }
+      reply(Boom.unauthorized('Authentication failed'));
     }
+
+    if (_.isNull(user)) {
+      reply(Boom.unauthorized('Authentication failed'));      
+    }
+
+    if (Crypto.decrypt(user.password) !=
+        req.payload.password) {
+      reply(Boom.unauthorized('Authentication failed'));        
+    } else {
+      reply({
+        email: user.email,
+        objectId: user._id,
+        username: user.username,
+        sessionToken: JwtAuth.createToken({
+          id: user._id
+        })
+      });//reply
+    }
+
   });
 };
 /**
@@ -100,7 +122,7 @@ internals.loginUser = function (req, reply) {
 internals.logoutUser = function(req, reply) {
   var headers = req.headers.authorization.split(' ');
   redisClient.set(headers[1], new Date());
-  reply({success: true, message: 'Logged out'});
+  reply({});
 };
 /**
  * ## verifyEmail
@@ -112,7 +134,7 @@ internals.logoutUser = function(req, reply) {
  *
  */
 internals.verifyEmail = function (req, reply) {
-  JasonWebToken.verify(req.params.token, Config.crypto.privateKey, function(err, decoded) {
+  JasonWebToken.verify(req.params.token, CONFIG.crypto.privateKey, function(err, decoded) {
     if(decoded === undefined) {
       return reply(Boom.forbidden("invalid verification link"));
     }
@@ -140,7 +162,6 @@ internals.verifyEmail = function (req, reply) {
           return reply(Boom.badImplementation(err));
         }
         return reply("account sucessfully verified");
-
       });
     })
     
@@ -166,12 +187,9 @@ internals.resetPasswordRequest = function (req, reply) {
       
       Mailer.sendMailResetPassword(user,
                                    JasonWebToken.sign(tokenData,
-                                                      Config.crypto.privateKey));
+                                                      CONFIG.crypto.privateKey));
       
-      reply({
-	statusCode: 201,
-	message: "email delivered."
-      });
+      reply({});
     }
   });
 };
@@ -197,7 +215,7 @@ internals.displayResetPassword = function (req, reply) {
  */
 internals.resetPassword = function (req, reply) {
   
-  JasonWebToken.verify(req.payload.token, Config.crypto.privateKey, function(err, decoded) {
+  JasonWebToken.verify(req.payload.token, CONFIG.crypto.privateKey, function(err, decoded) {
     
     if(decoded === undefined) {
       return reply(Boom.forbidden("invalid resetPassword link"));
@@ -229,6 +247,69 @@ internals.resetPassword = function (req, reply) {
     })
   });
 
+};
+/**
+ * ## getMyProfile
+ * 
+ * We only get here through authentication
+ *
+ * note: the user is available from the credentials!
+ */
+internals.getMyProfile = function (req, reply) {
+  reply({
+    objectId: req.auth.credentials._id,
+    username: req.auth.credentials.username,
+    email: req.auth.credentials.email,
+    emailVerified: req.auth.credentials.emailVerified,
+    sessionToken: req.headers.authorization.split(' ')[1]
+  });
+};
+/**
+ * ## getMyProfile
+ * 
+ * We only get here through authentication
+ *
+ * note: the user is available from the credentials!
+ */
+internals.updateProfile = function (req, reply) {
+  User.findById(req.params._id, function(err, user) {
+    if (err) {
+      return reply(Boom.badImplementation(err));
+    }
+    
+
+    //Provide no indication if user exists
+    if (user) {
+      user.username = req.payload.username;
+      
+      //If user changed email, it needs to be verified
+      if (user.email !== req.payload.email) {
+        user.emailVerified = false;
+      }
+      user.email = req.payload.email;
+
+      
+      user.save(function(err, updatedUser) {
+        if (err) {
+          return reply(Boom.conflict("User couldn't be saved."));
+        }
+        
+        //Send verification email if needed
+        if (!updatedUser.emailVerified) {
+          var tokenData = {
+            username: user.username,
+            id: user._id
+          };
+          // send an email verification with a JWT token
+          Mailer.sendMailVerificationLink(user,
+                                          JasonWebToken.sign(tokenData,
+                                                             CONFIG.crypto.privateKey));
+        }
+        reply({});
+      });
+
+    }
+  });  
 };
 
 module.exports = internals;

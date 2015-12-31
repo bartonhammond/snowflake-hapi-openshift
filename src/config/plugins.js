@@ -19,7 +19,6 @@ var internals = {};
 internals.plugins = function () {
   return [
     {
-
       register: require('hapi-auth-jwt'),
       options: {}
     },

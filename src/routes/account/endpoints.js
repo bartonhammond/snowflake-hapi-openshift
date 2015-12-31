@@ -12,8 +12,12 @@
  * ## Imports
  *
  */
-var Joi = require('joi');
-var AccountHandlers = require('./handlers');
+//Handle the endpoints
+var AccountHandlers = require('./handlers'),
+    //The static configurations
+    CONFIG = require('../../config'),
+    //Joi is Hapi's validation library
+    Joi = require('joi');
 
 var internals = {};
 /**
@@ -22,6 +26,8 @@ var internals = {};
  * Note the account/logout requires authentication
  *
  * Note the validation of the account/register parameters
+ *
+ * Note account/register has same Regex expression as Snowflake client
  */
 internals.endpoints = [
   {
@@ -31,8 +37,8 @@ internals.endpoints = [
     config: {
       validate: {
 	payload: {
-	  username: Joi.string().alphanum().min(6).max(12).required(),
-	  password: Joi.string().regex(/[a-zA-Z0-9]{3,30}/).required(),
+	  username: Joi.string().regex(CONFIG.validation.username).required(),
+	  password: Joi.string().regex(CONFIG.validation.password).required(),
 	  email: Joi.string().email().required()
 	}
       }
@@ -71,6 +77,24 @@ internals.endpoints = [
     path: '/account/resetPassword',
     handler: AccountHandlers.resetPassword
   },
+  {
+    method: 'GET',
+    path: '/account/profile/me',
+    handler: AccountHandlers.getMyProfile,
+    config: {
+      auth: 'token'
+    }
+  },
+  {
+    method: 'POST',
+    path: '/account/profile/{_id}',
+    handler: AccountHandlers.updateProfile,
+    config: {
+      auth: 'token'
+    }
+  },
+
 ];
+
 
 module.exports = internals;

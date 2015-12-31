@@ -10,11 +10,14 @@
  */
 'use strict';
 /**
-* ## All the routes are joined
-*
-*/
+ * ## All the routes are joined
+ *
+ */
+// Accounts
 var AccountRoutes = require('../routes/account/endpoints'),
+    //General like env & status
     GeneralRoutes = require('../routes/general/endpoints'),
+    //Restricted route to prove authentication & authorization
     RestrictedRoutes = require('../routes/restricted/endpoints');
 
 var internals = {};
