@@ -53,8 +53,11 @@ rhc domain create <yournamespace>
   * notice the ```-s``` at the end - that enables Scaling to Web Traffic!
 
 ```
-rhc app-create mysnowflake  nodejs-0.10 mongodb-2.4  \
-http://cartreflect-claytondev.rhcloud.com/reflect?github=transformatordesign/openshift-redis-cart -s
+rhc app-create mysnowflake  nodejs-0.10 mongodb-2.4 -s
+
+rhc add-cartridge \
+http://cartreflect-claytondev.rhcloud.com/reflect?github=transformatordesign/openshift-redis-cart \
+-a mysnowflake
 ```
 
 * Add this repository

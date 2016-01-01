@@ -32,11 +32,8 @@ internals.server = new Hapi.Server();
 
 //Setup the connection for the environment
 internals.server.connection({
-  port: process.env.OPENSHIFT_NODEJS_PORT   ||
-    process.env.OPENSHIFT_INTERNAL_PORT || 8080,
-  
-  address: process.env.OPENSHIFT_NODEJS_IP ||
-    process.env.OPENSHIFT_INTERNAL_IP || '127.0.0.1'
+  port: process.env.OPENSHIFT_NODEJS_PORT || 8080,
+  address: process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 });
 
 // register plugins
