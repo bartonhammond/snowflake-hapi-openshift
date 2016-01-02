@@ -13,33 +13,38 @@
 'use strict';
 
 /**
-* ## Imports
-*
+ * ## Imports
+ *
  */
-// Hoek is similar to underscore 
-var Hoek = require('hoek'),
+// Hoek is similar to underscore
+var Handlebars = require('handlebars'),
+    HapiSwagger = require('hapi-swagger'),    
+    Hoek = require('hoek'),
+    internals = {},   
+    Inert = require('inert'),
+    Pack = require('../../package'),    
     Path = require('path'),
-    internals = {};
+    Vision = require('vision');
+
 
 /**
-* ## init
-*
-*/
+ * ## init
+ *
+ */
 internals.init = function (server) {
-
   /**
    * ### vision
    *
    * this establishes where the html is located
    * and the engine to parse it
    */
-  server.register(require('vision'), (err) => {
+  server.register(Vision, (err) => {
 
     Hoek.assert(!err,err);
     
     server.views({
       engines: {
-        html: require('handlebars')
+        html: Handlebars
       },
       relativeTo: __dirname,
       path: Path.join(__dirname, '../views')      
@@ -56,7 +61,7 @@ internals.init = function (server) {
    * The resetpassword.js is located in ../assests
    *
    */
-  server.register(require('inert'), (err) => {
+  server.register(Inert, (err) => {
 
     //Confirm no err
     Hoek.assert(!err,err);
@@ -72,7 +77,29 @@ internals.init = function (server) {
       }
     });
   });
-  
+
+  /**
+   * ### swagger
+   *
+   * Swagger documents the api
+   * 
+   * the /documentation endpoint displays the api docs
+   * 
+   */
+  const swaggerOptions = {
+    info: {
+      'title': 'Snowflake - API Documentation',
+      'version': Pack.version
+    }
+  };
+  server.register({
+    register: HapiSwagger,
+    options: swaggerOptions
+  }, (err) => {
+    Hoek.assert(!err,err);
+    
+  });
+
 };
 
 module.exports = internals;

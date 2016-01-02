@@ -86,6 +86,7 @@ internals.registerUser = function (req, reply) {
  *
  */
 internals.loginUser = function (req, reply) {
+  console.log('loginUser',req);
   User.findOne({ username: req.payload.username }, function (err, user) {
     
     if (err) {
@@ -185,9 +186,11 @@ internals.resetPasswordRequest = function (req, reply) {
         id: user._id
       };
       
-      Mailer.sendMailResetPassword(user,
-                                   JasonWebToken.sign(tokenData,
-                                                      CONFIG.crypto.privateKey));
+      //The token will have id & username encrpyted      
+      Mailer.sendMailResetPassword(
+        user,
+        JasonWebToken.sign(tokenData,
+                           CONFIG.crypto.privateKey));
       
       reply({});
     }

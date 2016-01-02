@@ -16,6 +16,13 @@ var internals = {};
 * ## status - are we alive?
 *
 */
+internals.index = function (req, reply) {
+  reply('<h1>Hello Openshift!</h1>');
+};
+/**
+* ## status - are we alive?
+*
+*/
 internals.status = function (req, reply) {
   reply( {"status": "ok"} );
 };

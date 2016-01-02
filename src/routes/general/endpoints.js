@@ -19,6 +19,11 @@ var GeneralHandlers = require('./handlers'),
 internals.endpoints = [
   {
     method: 'GET',
+    path: '/',
+    handler: GeneralHandlers.index
+  },  
+  {
+    method: 'GET',
     path: '/status',
     handler: GeneralHandlers.status
   },

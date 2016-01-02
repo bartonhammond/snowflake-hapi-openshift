@@ -48,6 +48,7 @@ internals.validate = function (request, decodedToken, callback) {
   if (headers.length === 2) {
     //does redis have the token
     redisClient.get(headers[1], function (err, reply) {
+
       if (err) {
         return callback(err, false, credentials);		        
       }
@@ -60,7 +61,7 @@ internals.validate = function (request, decodedToken, callback) {
       // note we're only using 'id' - that's because
       // the user can change their email and username
       User.findById(decodedToken.id, function (err, user) {
-
+        
         if (err) {
           return callback(err, false, credentials);		
         } else {
