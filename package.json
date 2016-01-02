@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "cp ./README.md src/docs && node server.js",
     "debug": "node-debug  server.js",
     "docs": "./node_modules/docker/docker -w -I -x node_modules -s yes -o ../snowflake-hapi-openshift-pages "
   },
@@ -38,6 +38,7 @@
     "inert": "^3.2.0",
     "joi": "^7.1.0",
     "jsonwebtoken": "^5.5.0",
+    "marked": "^0.3.5",
     "moment": "^2.10.6",
     "mongoose": "^4.3.4",
     "nodemailer": "^1.11.0",

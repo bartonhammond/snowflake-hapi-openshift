@@ -20,18 +20,46 @@
 var Handlebars = require('handlebars'),
     HapiSwagger = require('hapi-swagger'),    
     Hoek = require('hoek'),
-    internals = {},   
+    internals = {},    
     Inert = require('inert'),
+    Marked = require('marked'),
     Pack = require('../../package'),    
     Path = require('path'),
     Vision = require('vision');
 
+/**
+ * ### markdown view
+ *
+ * Use the GitHub Markdown css 
+ */
+function MarkdownView() {
+
+  this.compile = function (template) {
+    return function (context) {
+      var html = Marked(template, context);
+      return `<link rel="stylesheet" href="/assets/github-markdown.css">
+<style>
+    .markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 45px;
+    }
+</style>
+<article class="markdown-body">
+    ${html}
+</article>`;
+    };
+  };
+}
 
 /**
  * ## init
  *
  */
 internals.init = function (server) {
+  
   /**
    * ### vision
    *
@@ -44,13 +72,16 @@ internals.init = function (server) {
     
     server.views({
       engines: {
-        html: Handlebars
+       'html': Handlebars,
+        'md': {
+          module: new MarkdownView(),
+          contentType: 'text/html'
+        }        
       },
       relativeTo: __dirname,
-      path: Path.join(__dirname, '../views')      
+      path: [Path.join(__dirname, '../views'),Path.join(__dirname, '../docs')]
     });
-
-    // Static Assets
+    
   });
   /**
    * ### inert

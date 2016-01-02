@@ -17,7 +17,8 @@ var internals = {};
 *
 */
 internals.index = function (req, reply) {
-  reply('<h1>Hello Openshift!</h1>');
+  //src/docs/home.md is a markdown file 
+  reply.view('README.md');
 };
 /**
 * ## status - are we alive?
@@ -32,7 +33,7 @@ internals.status = function (req, reply) {
 *
 */
 internals.env = function (req, reply) {
-  var content = 'Version: ' + process.version + '\n<br/>\n' +
+  var content = 'Node Version: ' + process.version + '\n<br/>\n' +
         'Env: {<br/>\n<pre>';
   //  Add env entries.
   for (var k in process.env) {
