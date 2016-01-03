@@ -162,6 +162,7 @@ git push
 * There are numerous ```curl``` command in ```curl.md```
 
 * If you want to have this project also in your GitHub account follow
-these steps
+these steps but be WARNED: unless you use a "Private" repository, your
+```config.js``` will be visible.
 
   * https://forums.openshift.com/how-to-keep-a-github-repository-and-an-openshift-repository-in-sync

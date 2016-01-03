@@ -38,7 +38,7 @@ var internals = {};
  * Encrypt the password and store the user
  */
 internals.registerUser = function (req, reply) {
-
+  console.log('registerUser',req.payload);
   req.payload.password = Crypto.encrypt(req.payload.password);
   req.payload.emailVerified = false;
   var user = new User(req.payload);
@@ -46,7 +46,7 @@ internals.registerUser = function (req, reply) {
   //save the user w/ the encrypted password
   user.save(function (err, user) {
     if (err) {
-      reply(Boom.conflict("User couldn't be saved."));
+      reply(Boom.conflict(err));
     } else {
       var tokenData = {
         username: user.username,
@@ -86,7 +86,6 @@ internals.registerUser = function (req, reply) {
  *
  */
 internals.loginUser = function (req, reply) {
-  console.log('loginUser',req);
   User.findOne({ username: req.payload.username }, function (err, user) {
     
     if (err) {

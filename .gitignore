@@ -1,3 +1,4 @@
 .tern-project
 node_modules
-.tern-port        
+.tern-port
+.DS_Store

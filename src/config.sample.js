@@ -10,10 +10,10 @@ module.exports = {
     tokenExpiry: 1 * 30 * 1000 * 60 //1 hour
   },
   email: {
+    test: true,    
     username: "someone@gmail.com",
     password: "somepassword",
-    accountName: "Snowflake",
-    verifyEmailUrl: "verifyEmail"
+    accountName: "Snowflake"
   },
   validation: {
     username: /^[a-zA-Z0-9]{6,12}$/,

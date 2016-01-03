@@ -63,7 +63,7 @@ or
 ```
 curl -v -H "Authorization: Bearer \
 eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImJhcnRvbiIsImVtYWlsIjoiYmFydG9uQGFjY2xpdnl4LmNvbSIsImlhdCI6MTQ1MTQ0MTU2NywianRpIjoiand0aWQifQ.y5ovHgLhawYkr-ZdiDmADJdlhnL8kPMpqq0unfQfqpY" \
-http://localhost:8080/account/me
+http://localhost:8080/account/profile/me
 or
 
 curl -v -H "Authorization: Bearer \

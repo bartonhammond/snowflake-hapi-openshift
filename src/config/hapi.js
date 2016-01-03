@@ -32,7 +32,7 @@ internals.server = new Hapi.Server();
 
 //Setup the connection for the environment
 internals.server.connection({
-  port: process.env.OPENSHIFT_NODEJS_PORT || 8080,
+  port: process.env.OPENSHIFT_NODEJS_PORT || 5000,
   address: process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 });
 

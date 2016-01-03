@@ -81,7 +81,6 @@ internals.clearErrors = function () {
   var errorMessages = document.getElementsByTagName('p');
 
   if (errorMessages.length > 0) {
-
     console.log('Has Errors');
     errorMessages[0].parentNode.removeChild(errorMessages[0]);
   }

@@ -1,17 +1,95 @@
-Snowflake ![snowflake](https://cloud.githubusercontent.com/assets/1282364/11599365/1a1c39d2-9a8c-11e5-8819-bc1e48b30525.png)
+Snowflake Server ![Snowflake Server](https://cloud.githubusercontent.com/assets/1282364/12075658/12d1cfee-b14c-11e5-9aa5-dc7fd1f0c795.png)
 ==================================
-#### This is a nodejs server for the [React-Native app Snowflake](https://github.com/bartonhammond/snowflake).  This server runs locally and on OpenShift scaling for web traffic.  It uses Hapi, MongoDb, Redis, and Jason Web Token.
+### This is a nodejs server for the [React-Native app Snowflake](https://github.com/bartonhammond/snowflake). 
+
+* This nodejs server runs locally and on OpenShift scaling for web traffic.
+* It uses:
+  * **Hapi** [http://hapijs.com/](http://hapijs.com/) - A rich
+  framework for building applications and services
+  * **JMeter** -
+    [http://jmeter.apache.org/]([http://jmeter.apache.org/) - The Apache JMeter™ application is open source software, a 100% pure Java application designed to load test functional behavior and measure performance
+  * **MongoDb** [https://www.mongodb.org](https://www.mongodb.org) - MongoDBis an open-source, document database designed for ease of
+  development and scaling.
+  * **NodeMailer** [http://nodemailer.com/](http://nodemailer.com/) - Send e-mails with Node.JS – easy as cake!
+  * **OpenShift**
+    [https://www.openshift.com/](https://www.openshift.com/) - OpenShift Online is Red Hat's next-generation application hosting platform that makes it easy to run your web applications in the cloud for free.
+  * **Redis** - [http://redis.io/](http://redis.io/) - Redis is an open source, in-memory data structure store, used as database, cache and message broker.
+  * **Swagger** - [http://swagger.io/](http://swagger.io/) - The World's Most Popular Framework for APIs.
+  * **Jason Web Token** -
+    [https://github.com/auth0/node-jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
+    JSON Web Tokens are an open, industry standard RFC 7519 method for representing claims securely between two parties.
+
 
 [![Join the chat at https://gitter.im/bartonhammond/snowflake](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bartonhammond/snowflake?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-![ios](https://img.shields.io/badge/IOS--blue.svg) [![Build Status](https://www.bitrise.io/app/348ae0a97c5e147a.svg?token=RmDwzjeIGuo7i9MeazE1fg)](https://www.bitrise.io/app/348ae0a97c5e147a)
-![andriod](https://img.shields.io/badge/Android--blue.svg) [![Build Status](https://www.bitrise.io/app/1e0425744dcc7ce3.svg?token=uvZDZvo89BLXvjrArJJreQ)](https://www.bitrise.io/app/1e0425744dcc7ce3)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/bartonhammond/snowflake/blob/master/LICENSE)
 
 # Content
+- [Use case](#usecase)
+- [Summary](#summary)
+- [Setup](#setup)
+- [API Documentation](http://mysnowflake-bartonhammond.rhcloud.com/documentation)
+- [Source documentation](http://bartonhammond.github.io/snowflake-hapi-openshift/server.js.html)
 
-[Source documentation](http://bartonhammond.github.io/snowflake-hapi-openshift/server.js.html)
+## Usecase
 
-## Directions on usage
+* **Register** - When user registers w/ email, username, password, the
+  system sends a email verification.  Until the user clicks the link
+  within the email, their Email Verified field is false.  When
+  clicked, the field is set to true. The response from Register
+  contains a "Session Token" for subsequent authentication.
+
+* **Login** When the user logs in with their username and password,
+the sytem responds with a "Session Token".
+
+* **Log Out** When the user logs out, the Session Token is blacklisted
+  using Redis.  Every entry point to the server that requires
+  authentication first checks if the Session Toke has already been
+  revoked by checking it's presence in Redis.  If present, the request
+  is denied.
+
+* **Reset Password** Once the user provides an Email address, they
+  receive an email with a link that takes them to a form to submit a
+  new password
+
+* **Profile** Once a user is logged in, they can view their profile.
+
+* **Profile Update** A User can  modify their username and/or email.
+  If the email address is modified, their Email Verified value is
+  set again to false and a new
+  email is sent to the new address for verification.
+  
+
+## Summary
+
+### Hapi
+The nodeJS server uses Hapi.  Hapi was developed and Open Sourced by
+[Walmart Labs](http://www.walmartlabs.com/project_type/open-source/).
+It has been battle tested by Walmart, the largest retailer on earth.
+I chose it over Express 'cause Hapi is more targeted to API support
+and it looked interesting.
+
+### OpenShift
+OpenShift supports a free NodeJS setup that will scale with web
+traffic.  This **Snowflake Server** setup will use MongoDB and Redis.
+
+### MongoDb
+Mongodb will host our documents, namely User information, at this
+time.  We'll be using **Mongoose** for interacting with Mongo within
+our code.
+
+### Redis
+Redis is fantastic for key,value pair access.  We're using it here for
+"Black Listing Json Web Tokens".  You can read about this concept here [https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-keys/](https://auth0.com/blog/2015/03/10/blacklist-json-web-token-api-keys/)
+
+### Swagger
+Swagger provides the api documentation - simply augmenting the
+endpoints generates a page showing all the API access points.
+
+### Jason Web Token
+JWT is used in the Authentication as a Session Token.
+
+
+## Setup
 
 ### Locally (one time only setup)
 ----------------------------------------------------------
@@ -84,6 +162,7 @@ git push
 * There are numerous ```curl``` command in ```curl.md```
 
 * If you want to have this project also in your GitHub account follow
-these steps
+these steps but be WARNED: unless you use a "Private" repository, your
+```config.js``` will be visible.
 
   * https://forums.openshift.com/how-to-keep-a-github-repository-and-an-openshift-repository-in-sync

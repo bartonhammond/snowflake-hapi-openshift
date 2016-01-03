@@ -16,12 +16,26 @@ var Mongoose = require('mongoose'),
 
 //Same fields as Parse.com 
 var UserSchema = new Schema({
-  username: String,
-  email: String,
-  password: String,
-  emailVerified: Boolean  
+  username: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  password:{
+    type: String,
+    required: true
+  },
+  emailVerified: {
+    type: Boolean
+  }
 });
-
+//Make a compound index of username/email
+UserSchema.index({ username: 1, email: 1 }, { unique: true });
 /**
  * ## findUserByIdAndUserName
  *

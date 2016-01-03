@@ -10,7 +10,7 @@
  * ## Imports
  *
  */
-var Config = require('../config'),
+var CONFIG = require('../config'),
     // kind of like underscore, but specific to Hapi
     Hoek = require('hoek'),
     // the email library
@@ -23,8 +23,8 @@ var Config = require('../config'),
 var transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
-    user: Config.email.username,
-    pass: Config.email.password
+    user: CONFIG.email.username,
+    pass: CONFIG.email.password
   }
 });
 /**
@@ -49,10 +49,10 @@ function getUrl( ) {
  */
 exports.sendMailVerificationLink = function(user,token) {
   var url = getUrl();
-  var from = Config.email.accountName;
+  var from = CONFIG.email.accountName;
   var mailbody = "<p>Thanks for Registering on"
         + " "
-        + Config.email.accountName
+        + CONFIG.email.accountName
     +" </p><p>Please verify your email by clicking on the"
         + " verification link below.<br/><a href='"
         + url
@@ -70,10 +70,10 @@ exports.sendMailVerificationLink = function(user,token) {
 exports.sendMailResetPassword = function(user, token) {
 
   var url = getUrl();
-  var from = Config.email.accountName;
+  var from = CONFIG.email.accountName;
   var mailbody = "<p>A reset password action has been requested from"
         + " "
-        + Config.email.accountName
+        + CONFIG.email.accountName
     +" </p><p>Please click on the "
         + " reset password link below.<br/>"
         + " The link is only available for 15 minutes.<br/>"
@@ -102,7 +102,9 @@ function mail(from, email, subject, mailbody){
     html: mailbody  // html body
   };
   //Send email
-  transporter.sendMail(mailOptions, function(error) {
-    Hoek.assert(!error,error);
-  });
+  if (!CONFIG.email.test) {
+    transporter.sendMail(mailOptions, function(error) {
+      Hoek.assert(!error,error);
+    });
+  }
 }
