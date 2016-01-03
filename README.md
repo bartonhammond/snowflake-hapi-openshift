@@ -236,6 +236,13 @@ npm start
 
 
 ### OpenShift
+
+Watch the following video to see all the steps to install the **Hapi nodes server to Openshift** in action:
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=Js4Kvd9gG6E" target="_blank"><img src="https://i.ytimg.com/s_vi/Js4Kvd9gG6E/2.jpg?sqp=CMzbprQF&rs=AOn4CLDZzm3zHrS-YdAJCi4a-yHXv73NyQ" 
+alt="Snowflake Hot Loading" width="240" height="180" border="10" /></a>
+
+
 ----------------------------------------------------------
 
 * Create an account at http://openshift.redhat.com/
