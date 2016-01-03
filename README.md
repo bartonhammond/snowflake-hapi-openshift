@@ -1,6 +1,8 @@
 Snowflake Server ![Snowflake Server](https://cloud.githubusercontent.com/assets/1282364/12075658/12d1cfee-b14c-11e5-9aa5-dc7fd1f0c795.png)
 ==================================
-### This is a Hapi server, backed by MongoDb & Redis, running freely on Openshift for the [React-Native mobile app Snowflake](https://github.com/bartonhammond/snowflake). You can consider this a "starter server" or just an "example" of these technologies work together. 
+### This is a Hapi server, backed by MongoDb & Redis, running *freely* on Openshift for the [React-Native mobile app Snowflake](https://github.com/bartonhammond/snowflake). 
+
+####You can consider this a "starter server" or a "boilerplate" or maybe just an "example" of how these technologies work together. In any case, I hope there's something here you can learn and apply to your project!
 
 | Services  | Javascript | noSQL |
 | :------------:|:---------------:| :-----:|
