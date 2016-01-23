@@ -4,6 +4,10 @@ module.exports = {
     port: '27017',
     app: 'nodejs'
   },
+  redis: {
+    host: '127.0.0.1',
+    port: 6379
+  },  
   crypto: {
     privateKey:
     '37LvDSasdfasfsaf3a3IEIA;3r3oi3joijpjfa3a3m4XvjYOh9Yaa.p3id#IEYDNeaken',
