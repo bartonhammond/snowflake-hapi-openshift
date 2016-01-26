@@ -185,7 +185,7 @@ internals.resetPasswordRequest = function (req, reply) {
         id: user._id
       };
       
-      //The token will have id & username encrpyted      
+      //The token will have id & username encrypted      
       Mailer.sendMailResetPassword(
         user,
         JasonWebToken.sign(tokenData,
@@ -205,7 +205,7 @@ internals.resetPasswordRequest = function (req, reply) {
  *
  */
 internals.displayResetPassword = function (req, reply) {
-  reply.view('resetpassword', {token: req.params.token});
+  reply.view('resetpassword.html', {token: req.params.token});
 };
 
 /**
