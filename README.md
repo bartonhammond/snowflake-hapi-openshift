@@ -228,6 +228,29 @@ cd src/
 ./redis-server 
 ```
 
+* Update ip in config file w/ ip from `ifconfig`
+Example:
+```
+  hapi: {
+    port: 5000,
+    ip: '192.168.0.5'
+  }ik
+ 
+ ```
+
+* Update Snowflake ```src/lib/config.js``` w/ same ip from step above
+Example:
+```
+  HAPI: {
+    local: {
+      url: 'http://192.168.0.5:5000'
+    },
+    remote: {
+      url: 'enter your remote url here'
+    }
+  }  
+```
+  
   * Then in different terminal, inside mysnowflake,
 
 ```

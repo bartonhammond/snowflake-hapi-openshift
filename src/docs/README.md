@@ -1,6 +1,8 @@
 Snowflake Server ![Snowflake Server](https://cloud.githubusercontent.com/assets/1282364/12075658/12d1cfee-b14c-11e5-9aa5-dc7fd1f0c795.png)
 ==================================
-### This is a Hapi server, backed by MongoDb & Redis, running freely on Openshift for the [React-Native mobile app Snowflake](https://github.com/bartonhammond/snowflake). You can consider this a "starter server" or just an "example" of these technologies work together. 
+### This is a Hapi server, backed by MongoDb & Redis, running *freely* on Openshift for the [React-Native mobile app Snowflake](https://github.com/bartonhammond/snowflake). 
+
+####You can consider this a "starter server" or a "boilerplate" or maybe just an "example" of how these technologies work together. In any case, I hope there's something here you can learn and apply to your project!
 
 | Services  | Javascript | noSQL |
 | :------------:|:---------------:| :-----:|
@@ -163,16 +165,18 @@ Shown below is the script defined in JMeter
 ### BlazeMeter
 BlazeMeter was used to perform the tests as it is much better equipped to host the threads then my personal mac.
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=HKDw5po4TYM" target="_blank"><img src="http://img.youtube.com/vi/HKDw5po4TYM/0.jpg" 
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=HKDw5po4TYM" target="_blank"><img src="https://i.ytimg.com/s_vi/HKDw5po4TYM/1.jpg?sqp=CKyjprQF&rs=AOn4CLDM4rBr05-tstNYVcwhO09V1WXdNA&time=1451856598959" 
 alt="Running BlazeMeter" width="240" height="180" border="10" /></a>
+
 
 The following screens show the results of running 50 concurrent users performing the following actions with a 1 second delay between each action:
 
-* register - Register with username, password, and email
-* login - Usename, password sued to login
-* restricted access - access a page requiring SessionToken
-* profile/account/me - show my profile
-* profile/account/{_id} - update the profile defined by _id
+* **register** - Register with username, password, and email
+* **login** - Usename, password sued to login
+* **restricted access** - access a page requiring SessionToken
+* **profile/account/me** - show my profile
+* **profile/account/{_id}** - update the profile defined by _id
 
 **Original Test Configuration**
 ![Original Test Configuration](https://cloud.githubusercontent.com/assets/1282364/12080259/f004f1d8-b21a-11e5-8675-e81f4f915842.png)
@@ -232,6 +236,13 @@ npm start
 
 
 ### OpenShift
+
+Watch the following video to see all the steps to install the **Hapi nodes server to Openshift** in action:
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=Js4Kvd9gG6E" target="_blank"><img src="https://i.ytimg.com/s_vi/Js4Kvd9gG6E/2.jpg?sqp=CMzbprQF&rs=AOn4CLDZzm3zHrS-YdAJCi4a-yHXv73NyQ" 
+alt="Snowflake Hot Loading" width="240" height="180" border="10" /></a>
+
+
 ----------------------------------------------------------
 
 * Create an account at http://openshift.redhat.com/
@@ -290,8 +301,7 @@ git push origin master
 *  You can now checkout your application at:[ http://mysnowflake-$yournamespace.rhcloud.com](http://mysnowflake-$yournamespace.rhcloud.com/)
 
 
-* If you want to have this project also in your GitHub account follow
-these steps but be **WARNED**: unless you use a "Private" repository, your
+* If you want to have this project also in your personal GitHub account also, follow these steps but be **WARNED**: unless you use a "Private" repository, your
 ```config.js``` will be visible.
 
   * https://forums.openshift.com/how-to-keep-a-github-repository-and-an-openshift-repository-in-sync

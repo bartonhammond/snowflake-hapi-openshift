@@ -22,5 +22,9 @@ module.exports = {
   validation: {
     username: /^[a-zA-Z0-9]{6,12}$/,
     password: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,12}$/
+  },
+  hapi: {
+    port: 5000,
+    ip: '192.168.1.66'
   }
 };

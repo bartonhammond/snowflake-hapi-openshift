@@ -13,7 +13,10 @@
 * ## Imports
 *
 */
-var Hapi = require('hapi'),
+var
+    Config = require('../config'),
+    //Hapi itself
+    Hapi = require('hapi'),
     // the authentication strategy
     JwtAuth = require('../auth/jwt-strategy'),
     // kind of like underscore, but specific to Hapi
@@ -32,8 +35,8 @@ internals.server = new Hapi.Server();
 
 //Setup the connection for the environment
 internals.server.connection({
-  port: process.env.OPENSHIFT_NODEJS_PORT || 5000,
-  address: process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+  port: process.env.OPENSHIFT_NODEJS_PORT || Config.hapi.port,
+  address: process.env.OPENSHIFT_NODEJS_IP || Config.hapi.ip
 });
 
 // register plugins
