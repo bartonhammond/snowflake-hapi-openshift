@@ -233,9 +233,9 @@ Example:
 ```
   hapi: {
     port: 5000,
-    ip: '192.168.0.5'
-  }ik
- 
+    ip: '127.0.0.1'
+  }
+
  ```
 
 * Update Snowflake ```src/lib/config.js``` w/ same ip from step above
@@ -243,7 +243,7 @@ Example:
 ```
   HAPI: {
     local: {
-      url: 'http://192.168.0.5:5000'
+      url: 'http://127.0.0.1:5000'
     },
     remote: {
       url: 'enter your remote url here'
