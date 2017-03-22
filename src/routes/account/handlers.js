@@ -93,21 +93,21 @@ internals.loginUser = function (req, reply) {
     }
 
     if (_.isNull(user)) {
-      reply(Boom.unauthorized('Authentication failed'));      
-    }
-
-    if (Crypto.decrypt(user.password) !=
-        req.payload.password) {
-      reply(Boom.unauthorized('Authentication failed'));        
+      reply(Boom.unauthorized('Authentication failed'));
     } else {
-      reply({
-        email: user.email,
-        objectId: user._id,
-        username: user.username,
-        sessionToken: JwtAuth.createToken({
-          id: user._id
-        })
-      });//reply
+      if (Crypto.decrypt(user.password) !=
+        req.payload.password) {
+        reply(Boom.unauthorized('Authentication failed'));
+      } else {
+        reply({
+          email: user.email,
+          objectId: user._id,
+          username: user.username,
+          sessionToken: JwtAuth.createToken({
+            id: user._id
+          })
+        });//reply
+      }
     }
 
   });
